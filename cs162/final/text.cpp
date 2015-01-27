@@ -51,27 +51,27 @@ int main()
     {
 		if(gameCheck == 1)
 		{
-                gameCheck = hallDriver(h, inventory);
+                	gameCheck = hallDriver(h, inventory);
 		}
-        else if(gameCheck == 2)
+		else if(gameCheck == 2)
 		{
-				gameCheck = closetDriver(c, inventory);
-        }
+			gameCheck = closetDriver(c, inventory);
+        	}
 		else if(gameCheck == 3)
 		{
-				gameCheck = towerDriver(t, inventory);
+			gameCheck = towerDriver(t, inventory);
 		}
 		else if(gameCheck == 4)
 		{
-				gameCheck = gateDriver(g, inventory);
+			gameCheck = gateDriver(g, inventory);
 		}
 		else if(gameCheck == 5)
 		{
-				gameCheck = throneDriver(th, inventory);	
+			gameCheck = throneDriver(th, inventory);	
 		}
 		else if(gameCheck == 6)
 		{
-				gameCheck = courtDriver(co, inventory);
+			gameCheck = courtDriver(co, inventory);
 		}
 		else if(gameCheck == 7)
 		{	
@@ -79,14 +79,15 @@ int main()
 			gameCheck = 8;
 		}
 
-    }    
+    } 
+    
     delete d;
-    delete h;
-	delete t;
-	delete c;
-	delete g;
-	delete th;
-	delete co;
+    delete h;	
+    delete t;
+    delete c;
+    delete g;
+    delete th;
+    delete co;
 	
     return 0;
 
