@@ -1,0 +1,11 @@
+1. eat and ate would be the same in stringHash1 but not in stringHash 2.
+
+2. The number of hashLinks in each bucket is reduced, making the loadFactor smaller.
+
+3. Yes because the load Factors will be different so they will resize differently.
+
+4. Yes. In #3 we talked about the different resizes, and if one Hash makes a resize at a time when another wouldn't, there would be different load factors.
+
+5. Yes. Because there are different factors by which the values are hashed, there will be a different distribution of hashLinks in Buckets. 
+
+6. Since prime numbers are only divisible by themselves and 1, there will be a wider spread distribution of remainders. Say we took 10, a non-prime. It will have certain remainders that occur more ofter than others because it's even and also a mutliple of 5. 20, a mutliple of 10, 5, 4 and 2 will be worse.

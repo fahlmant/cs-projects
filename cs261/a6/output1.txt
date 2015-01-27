@@ -1,0 +1,116 @@
+flip2 ~/cs261_w13/as6/solution 1021% ./prog
+opening file: input1.txt
+========Resizing========
+========Resizing========
+========Resizing========
+========Resizing========
+
+Bucket Index 2 -> Key:shelter|Value:1 -> 
+Bucket Index 3 -> Key:blow|Value:1 -> 
+Bucket Index 5 -> Key:in|Value:1 -> 
+Bucket Index 12 -> Key:myself|Value:1 -> 
+Bucket Index 13 -> Key:blistering|Value:1 -> 
+Bucket Index 15 -> Key:bay|Value:1 -> Key:found|Value:1 -> 
+Bucket Index 16 -> Key:know|Value:1 -> 
+Bucket Index 17 -> Key:day|Value:2 -> Key:it|Value:2 -> 
+Bucket Index 18 -> Key:to|Value:2 -> 
+Bucket Index 20 -> Key:blooming|Value:1 -> 
+Bucket Index 26 -> Key:for|Value:1 -> Key:trees|Value:1 -> 
+Bucket Index 29 -> Key:new|Value:2 -> 
+Bucket Index 34 -> Key:hot|Value:2 -> 
+Bucket Index 35 -> Key:settle|Value:1 -> 
+Bucket Index 42 -> Key:ground|Value:1 -> 
+Bucket Index 46 -> Key:Falling|Value:1 -> 
+Bucket Index 49 -> Key:leaf|Value:1 -> 
+Bucket Index 69 -> Key:bitter|Value:1 -> 
+Bucket Index 73 -> Key:I|Value:6 -> 
+Bucket Index 74 -> Key:Across|Value:1 -> 
+Bucket Index 75 -> Key:take|Value:1 -> 
+Bucket Index 79 -> Key:sand|Value:1 -> 
+Bucket Index 82 -> Key:find|Value:1 -> Key:It's|Value:1 -> 
+Bucket Index 85 -> Key:brown|Value:1 -> Key:cold|Value:1 -> 
+Bucket Index 92 -> Key:here|Value:1 -> 
+Bucket Index 93 -> Key:hear|Value:1 -> 
+Bucket Index 97 -> Key:a|Value:2 -> 
+Bucket Index 99 -> Key:wind|Value:1 -> Key:crackling|Value:1 -> 
+Bucket Index 100 -> Key:Buds|Value:1 -> 
+Bucket Index 101 -> Key:heat|Value:1 -> 
+Bucket Index 105 -> Key:And|Value:3 -> Key:walk|Value:1 -> 
+Bucket Index 106 -> Key:hope|Value:1 -> Key:across|Value:1 -> 
+Bucket Index 107 -> Key:This|Value:1 -> 
+Bucket Index 110 -> Key:someone|Value:1 -> Key:today's|Value:1 -> 
+Bucket Index 120 -> Key:bed|Value:1 -> 
+Bucket Index 125 -> Key:does|Value:1 -> Key:Crunch|Value:1 -> Key:will|Value:1 -> 
+Bucket Index 127 -> Key:won't|Value:1 -> 
+Bucket Index 132 -> Key:wait|Value:1 -> 
+Bucket Index 133 -> Key:In|Value:2 -> 
+Bucket Index 135 -> Key:As|Value:1 -> 
+Bucket Index 137 -> Key:watch|Value:1 -> Key:and|Value:2 -> Key:At|Value:1 -> 
+Bucket Index 138 -> Key:leave|Value:1 -> 
+Bucket Index 139 -> Key:from|Value:1 -> 
+Bucket Index 140 -> Key:see|Value:1 -> 
+Bucket Index 145 -> Key:So|Value:1 -> 
+Bucket Index 147 -> Key:the|Value:6 -> 
+Bucket Index 149 -> Key:best|Value:1 -> 
+Bucket Index 151 -> Key:me|Value:2 -> Key:last|Value:1 -> 
+Bucket Index 154 -> Key:May|Value:1 -> Key:For|Value:1 -> 
+Bucket Index 155 -> Key:of|Value:2 -> 
+Bucket Index 159 -> Key:down|Value:1 -> 
+concordance ran in 0.000000 seconds
+Table emptyBuckets = 109
+Table count = 66
+Table capacity = 160
+Table load = 0.412500
+Deleting keys
+
+Bucket Index 2 -> Key:shelter|Value:1 -> 
+Bucket Index 3 -> Key:blow|Value:1 -> 
+Bucket Index 5 -> Key:in|Value:1 -> 
+Bucket Index 12 -> Key:myself|Value:1 -> 
+Bucket Index 13 -> Key:blistering|Value:1 -> 
+Bucket Index 15 -> Key:bay|Value:1 -> Key:found|Value:1 -> 
+Bucket Index 16 -> Key:know|Value:1 -> 
+Bucket Index 17 -> Key:day|Value:2 -> Key:it|Value:2 -> 
+Bucket Index 18 -> Key:to|Value:2 -> 
+Bucket Index 20 -> Key:blooming|Value:1 -> 
+Bucket Index 26 -> Key:for|Value:1 -> Key:trees|Value:1 -> 
+Bucket Index 29 -> Key:new|Value:2 -> 
+Bucket Index 34 -> Key:hot|Value:2 -> 
+Bucket Index 35 -> Key:settle|Value:1 -> 
+Bucket Index 42 -> Key:ground|Value:1 -> 
+Bucket Index 46 -> Key:Falling|Value:1 -> 
+Bucket Index 49 -> Key:leaf|Value:1 -> 
+Bucket Index 69 -> Key:bitter|Value:1 -> 
+Bucket Index 73 -> Key:I|Value:6 -> 
+Bucket Index 74 -> Key:Across|Value:1 -> 
+Bucket Index 75 -> Key:take|Value:1 -> 
+Bucket Index 79 -> Key:sand|Value:1 -> 
+Bucket Index 82 -> Key:find|Value:1 -> Key:It's|Value:1 -> 
+Bucket Index 85 -> Key:brown|Value:1 -> Key:cold|Value:1 -> 
+Bucket Index 92 -> Key:here|Value:1 -> 
+Bucket Index 93 -> Key:hear|Value:1 -> 
+Bucket Index 97 -> Key:a|Value:2 -> 
+Bucket Index 99 -> Key:wind|Value:1 -> Key:crackling|Value:1 -> 
+Bucket Index 100 -> Key:Buds|Value:1 -> 
+Bucket Index 101 -> Key:heat|Value:1 -> 
+Bucket Index 105 -> Key:And|Value:3 -> Key:walk|Value:1 -> 
+Bucket Index 106 -> Key:hope|Value:1 -> Key:across|Value:1 -> 
+Bucket Index 107 -> Key:This|Value:1 -> 
+Bucket Index 110 -> Key:someone|Value:1 -> Key:today's|Value:1 -> 
+Bucket Index 120 -> Key:bed|Value:1 -> 
+Bucket Index 125 -> Key:does|Value:1 -> Key:Crunch|Value:1 -> Key:will|Value:1 -> 
+Bucket Index 127 -> Key:won't|Value:1 -> 
+Bucket Index 132 -> Key:wait|Value:1 -> 
+Bucket Index 133 -> Key:In|Value:2 -> 
+Bucket Index 135 -> Key:As|Value:1 -> 
+Bucket Index 137 -> Key:watch|Value:1 -> Key:At|Value:1 -> 
+Bucket Index 138 -> Key:leave|Value:1 -> 
+Bucket Index 139 -> Key:from|Value:1 -> 
+Bucket Index 140 -> Key:see|Value:1 -> 
+Bucket Index 145 -> Key:So|Value:1 -> 
+Bucket Index 149 -> Key:best|Value:1 -> 
+Bucket Index 151 -> Key:last|Value:1 -> 
+Bucket Index 154 -> Key:May|Value:1 -> Key:For|Value:1 -> 
+Bucket Index 155 -> Key:of|Value:2 -> 
+Bucket Index 159 -> Key:down|Value:1 -> 
+Deleted the table
