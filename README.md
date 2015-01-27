@@ -1,4 +1,4 @@
-cs-projects-pre
+cs-projects
 ===============
 Projects and Assignments from CS at Oregon State University.
 
