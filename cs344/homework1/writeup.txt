@@ -1,0 +1,53 @@
+Name: Taylor Fahlman
+Email: fahlmant@onid.oregonstate.edu
+Class: Cs344-001
+Assignment: 1
+Resources: datasavantconsutlting.com/roland/piping.html
+
+
+2. What are revision control systems?
+
+Revision control systems are a way of backing up and keeping track of all
+files within a project. This makes it easy to recover lost files, or code you
+know works if you've made a change that broke your code. There is rcs, cvs,
+svn and git. 
+
+rcs commands:
+ci - check in
+co - check out
+rcsdiff - diff (bring back the last revision) for rcs files
+
+cvs:
+add - adds a file or directory to the repository
+checkout - checks out source for editing
+commit - checks files into repo
+
+svn:
+
+propset - set properties to the file 
+delete - removes a file from the repo
+status - prints the status of the working directory and files.
+
+git:
+
+add - adds file to repo
+commit - adds changes and comments to repo to be pushed
+push - pushed the local git repo to a remote repository, such as one set uo on github
+
+
+3.Redirecting is for dealing with reading and writing files, while piping is
+for sending information between different utilities. 
+
+
+
+4. find . -type f -exec file '{}' \;
+
+
+
+5. What is the Unix command make, and how is it useful?
+ 
+Make is a tool that simplifies recompiling of large programs. You need a make
+file that holds the commands to check and/or compile all the different parts
+of the program. When you run make then it will search for a makefile in that
+directory and runs it if found.
+
