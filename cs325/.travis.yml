@@ -1,0 +1,2 @@
+language: python
+script: python2 assignment1/assignment1.py

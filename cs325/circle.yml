@@ -1,0 +1,3 @@
+test:
+  override:
+    - python2 assignment1/assignment1.py
