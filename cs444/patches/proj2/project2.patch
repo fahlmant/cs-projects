@@ -1,0 +1,57 @@
+diff -c block/Kconfig.iosched block/Kconfig.iosched
+*** block/Kconfig.iosched	2015-10-26 22:31:22.416751943 -0700
+--- block/Kconfig.iosched	2015-10-26 22:29:05.606512341 -0700
+***************
+*** 32,37 ****
+--- 32,46 ----
+  
+  	  This is the default I/O scheduler.
+  
++ config IOSCHED_LOOK
++     tristate "My Look I/O Scheduler"
++     default y
++     ---help---
++       The Look I/O Scheduler is very simple.
++       It goes it numerical order from the read head
++       to the high end of the disk, then from the original read head
++       position to the low end of the disk.
++ 
+  config CFQ_GROUP_IOSCHED
+  	bool "CFQ Group Scheduling support"
+  	depends on IOSCHED_CFQ && BLK_CGROUP
+***************
+*** 55,60 ****
+--- 64,72 ----
+  	config DEFAULT_NOOP
+  		bool "No-op"
+  
++     config DEFAULT_LOOK
++         bool "Look" if IOSCHED_LOOK=y
++ 
+  endchoice
+  
+  config DEFAULT_IOSCHED
+***************
+*** 62,67 ****
+--- 74,80 ----
+  	default "deadline" if DEFAULT_DEADLINE
+  	default "cfq" if DEFAULT_CFQ
+  	default "noop" if DEFAULT_NOOP
++ 	default "look" if DEFAULT_LOOK
+  
+  endmenu
+  
+diff -c block/Makefile block/Makefile
+*** block/Makefile	2015-10-26 22:31:13.651608446 -0700
+--- block/Makefile	2015-10-26 22:29:00.781433360 -0700
+***************
+*** 16,21 ****
+--- 16,22 ----
+  obj-$(CONFIG_IOSCHED_NOOP)	+= noop-iosched.o
+  obj-$(CONFIG_IOSCHED_DEADLINE)	+= deadline-iosched.o
+  obj-$(CONFIG_IOSCHED_CFQ)	+= cfq-iosched.o
++ obj-$(CONFIG_IOSCHED_LOOK)	+= sstf-iosched.o
+  
+  obj-$(CONFIG_BLOCK_COMPAT)	+= compat_ioctl.o
+  obj-$(CONFIG_BLK_DEV_INTEGRITY)	+= blk-integrity.o
+Only in new/: sstf-iosched.c

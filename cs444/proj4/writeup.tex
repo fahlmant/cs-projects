@@ -1,0 +1,58 @@
+\documentclass[letterpaper,10pt,titlepage]{article}
+
+\usepackage{graphicx}                                        
+\usepackage{amssymb}                                         
+\usepackage{amsmath}                                         
+\usepackage{amsthm}                                          
+
+\usepackage{alltt}                                           
+\usepackage{float}
+\usepackage{color}
+\usepackage{url}
+
+\usepackage{balance}
+\usepackage[TABBOTCAP, tight]{subfigure}
+\usepackage{enumitem}
+\usepackage{pstricks, pst-node}
+
+\usepackage{geometry}
+\geometry{textheight=8.5in, textwidth=6in}
+
+%random comment
+
+\newcommand{\cred}[1]{{\color{red}#1}}
+\newcommand{\cblue}[1]{{\color{blue}#1}}
+
+\usepackage{hyperref}
+\usepackage{geometry}
+
+\def\name{Taylor Fahlman}
+
+%% The following metadata will show up in the PDF properties
+\hypersetup{
+  colorlinks = true,
+  urlcolor = black,
+  pdfauthor = {\name},
+  pdfkeywords = {cs444 ``operating systemsII''},
+  pdftitle = {CS 444 Project 4},
+  pdfsubject = {CS 444 Project 4},
+  pdfpagemode = UseNone
+}
+
+\begin{document}
+
+\section{PLAN}
+    My plan is to fist look at how slob is implemented. Once I have a basic understanding, I will implement the system call since I can still get usefull information out of it initially. Once I've done that, I will change slob to use best fit. I'm not sure exactly what I'll change in the algorithm code wise, but I'll change slob so it doens't just allocate as soon as space is available.   
+ 
+\section{DESIGN}
+    Design was very easy overall. The most difficult part was the system calls. Most sources I found either targeted older kernels or the 64 bit version of the kernel we are using. After a bit of digging around the kernel source (and making sure slob.c got compiled), I found out where to define system calls for the 32 bit kernel, and how to call them from within the VM using the syscall systemcall. Once that was figured out, the best fit algorithm itself was pretty easy to impement. I found in slob.c where the page gets allocated, and instead of immedieatly allocating, I instead iterated through all pages until I found the smallest one that would still fit the need. Best fit got around 96 percent fragmnetation, while the default had roughly 20 percent. 
+
+
+\section{REFLECTIONS}
+    1. The main point is to understand how system calls work, and how memeory is managed\\
+    2. I broke it up into two parts. First, figure out system calls, then figure out the best fit. \\
+    3. The VM itself took signicantly longer to boot up, and it succeded. Best fit takes longer, so this was expected, and if the algorithm was incorrect, the vm wouldnt be able to boot up.\\
+    4. I leared about memory management, and system call defintions.\\ 
+
+\input{gitlog.tex}
+\end{document}

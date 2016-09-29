@@ -1,0 +1,68 @@
+\documentclass[letterpaper,10pt,titlepage]{article}
+
+\usepackage{graphicx}                                        
+\usepackage{amssymb}                                         
+\usepackage{amsmath}                                         
+\usepackage{amsthm}                                          
+
+\usepackage{alltt}                                           
+\usepackage{float}
+\usepackage{color}
+\usepackage{url}
+
+\usepackage{balance}
+\usepackage[TABBOTCAP, tight]{subfigure}
+\usepackage{enumitem}
+\usepackage{pstricks, pst-node}
+
+\usepackage{geometry}
+\geometry{textheight=8.5in, textwidth=6in}
+
+%random comment
+
+\newcommand{\cred}[1]{{\color{red}#1}}
+\newcommand{\cblue}[1]{{\color{blue}#1}}
+
+\usepackage{hyperref}
+\usepackage{geometry}
+
+\def\name{Taylor Fahlman}
+
+%% The following metadata will show up in the PDF properties
+\hypersetup{
+  colorlinks = true,
+  urlcolor = black,
+  pdfauthor = {\name},
+  pdfkeywords = {cs444 ``operating systemsII''},
+  pdftitle = {CS 444 Project 1},
+  pdfsubject = {CS 444 Project 1},
+  pdfpagemode = UseNone
+}
+
+\begin{document}
+\include(gitlog.tex)
+
+\section{COMMANDS}
+Log of commands:\\
+    \begin{itemize}
+        \item mkdir /scratch/fall2015/cs444-24; cd /scratch/fall2015/cs444-24\\
+        \item git clone git://git.yoctoproject.org/linux-yocto-3.14\\
+        \item cp /scratch/opt/environment-setup-i586-poky-linux .\\
+        \item cd linux-yocto-3.14; source ../environment-setup-i586-poky-linux\\
+        \item cp /scratch/spring2015/files/config-3.14.26-yocto-qemu ./.config\\
+        \item make -j4\\
+        \item qemu-system-i386 -gdb tcp::5524 -S -nographic -kernel arch/i386/boot/bzImage -drive file=core-image-lsb-sdk-qemux86.ext3,if=virtio -enable-kvm -net none -usb -localtime --no-reboot --append "root=/dev/vda rw console=ttyS0 debug".\\
+        \item \$GDB
+        \item target target remote :5524
+    \end{itemize}
+
+\section{REFLECTIONS}
+    1. I think the point of the assignment was to refresh us on using pthreads and to get us thinking in concurrency.\\
+    2. I approached the problem piece by piece. First, how to create a thread, then buffer implementation, proudcer implementation, consumer implementation, random number generation, then handling of the full and empty buffers. This piece by piece approach made the algoriths/constructs fall into place.\\
+    3. I tested by running the program as normal, but also testing the extremes. I filled the buffer with items and then tried to add onother to test the blocking when the buffer is full, and did the opposite to test when the buffer is empty. I also tested on different platforms to make sure the random number generation was handled correctly. \\
+    4. I (re)learned about pthreads. I also leared about including asm inline, and the basics of concurrecy programming.\\ 
+
+\input{gitlog.tex}
+%input the pygmentized output of mt19937ar.c, using a (hopefully) unique name
+%this file only exists at compile time. Feel free to change that.
+\end{document}

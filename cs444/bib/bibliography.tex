@@ -1,0 +1,48 @@
+\documentclass[titlepage]{article}
+\usepackage[T1]{fontenc}
+\usepackage[letterpaper, portrait, margin=0.75in]{geometry}
+\usepackage[singlespacing]{setspace}
+\usepackage{url}
+\usepackage{tocloft}
+\usepackage{listings}
+\usepackage{color}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+
+\section{Windows Internals, Chapter 5}
+\begin{singlespace}
+    \cite{windowsch5}Windows Internal, Part 1, Chapter 5 gives details on Processes, Threads and Jobs. This section goes into depth about how the kernel impelements and processes these things. It gives detail on what their definitions are, how they are created, as well as scheduling algroithms, how to monitor them from user space and other various complex details.
+\end{singlespace}
+
+\section{Windows Internals, Chapter 10}
+\begin{singlespace}
+    \cite{windowsch10}This chapter of Windows Internals focuses on memory management. It explains what services the kernel provides in terms of memory management, as well as heap management. This includes virtual adressing, pages, stacks, as well as physical memory handling.
+\end{singlespace}
+
+\section{Microsoft Developers Network}
+\begin{singlespace}
+    \cite{msdn}The Microsoft Developers Network is the official documentation of many Windows programming features. It provides correct function names, arguments, macros and structs to define for a desired feature of the Windows API. This page explains the built-in cryptography API, including architecture of the system, as well as supported algroitms.
+\end{singlespace}
+
+\section{FreeBSD, Chapter 4}
+\begin{singlespace}
+    \cite{freebsdch4}This chapter explains all about processes in FreeBSD. It focuses specifically on states, scheduling, context switching, creation and termination, and has large discussions about threads and pseduoconcurrency. It has a section on how to debug processes, and how process groups work in-depth as well.
+\end{singlespace}
+
+\section{FreeBSD, Chapter 5}
+\begin{singlespace}
+    \cite{freebsdch5}This chapter focuses on security in the FreeBSD kernel. It explains the security model it uses, including users and groups, process priveledges. For this paper, the section of kernel cryptographic services is used heavily. 
+\end{singlespace}
+
+\section{FreeBSD, Chapter 6}
+\begin{singlespace}
+    \cite{freebsdch6}This chapted details how the kernel manages memory. It given an overview on Virtual memory, how memory is allocated for processes and shared between them. It uses ideas from Chapter 4 to expalin in-depth the creation of a process, and how they are executed on the CPU.
+\end{singlespace}
+
+\newpage
+\bibliographystyle{plain}
+\bibliography{bibfile}
+
+\end{document}

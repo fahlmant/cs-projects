@@ -1,0 +1,64 @@
+\documentclass[letterpaper,10pt,titlepage]{article}
+
+\usepackage{graphicx}                                        
+\usepackage{amssymb}                                         
+\usepackage{amsmath}                                         
+\usepackage{amsthm}                                          
+
+\usepackage{alltt}                                           
+\usepackage{float}
+\usepackage{color}
+\usepackage{url}
+
+\usepackage{balance}
+\usepackage[TABBOTCAP, tight]{subfigure}
+\usepackage{enumitem}
+\usepackage{pstricks, pst-node}
+
+\usepackage{geometry}
+\geometry{textheight=8.5in, textwidth=6in}
+
+%random comment
+
+\newcommand{\cred}[1]{{\color{red}#1}}
+\newcommand{\cblue}[1]{{\color{blue}#1}}
+
+\usepackage{hyperref}
+\usepackage{geometry}
+
+\def\name{Taylor Fahlman}
+
+%% The following metadata will show up in the PDF properties
+\hypersetup{
+  colorlinks = true,
+  urlcolor = black,
+  pdfauthor = {\name},
+  pdfkeywords = {cs444 ``operating systemsII''},
+  pdftitle = {CS 444 Project 1},
+  pdfsubject = {CS 444 Project 1},
+  pdfpagemode = UseNone
+}
+
+\begin{document}
+
+\section{PLAN}
+    After looking at the assignment, it seemed to devide itself into two equally nice parts: Creating a block device with the driver, and then encrypt/decrypt all data going in and out.\\
+    I first sat down and read through th LDD3 chapter on block devices and how they are handled by the kernel. Then I looked at the documentation of the Crypto API that our classmate sent out\\.
+    Once I got a feel for what both would actually do, I started my design.
+
+\section{DESIGN}
+    The design was actually pretty easy. I first copied each of the functions out of the book and the corresponding full implementation provided line by line. This gave me a good understanding of what each function did.\\
+    I tried compiling that into the kernel itself but it seemed to be using a lot of deprocated functions. I found a newer implementation of the sbull driver by LDD3 that had updated function calls and updated my code.\\
+    The book and the coresponding code had most of the design desision already made so I didn't have to really think or make a design.\\
+    For ecryption, I looked at other parts of the kernel that use it, and also this test implementation (github.com/DanAlbert/cryptrd) to see how crypto is handled. Using the API to make sure I knew what each argument did,\\
+    I figured I needed to initialize the cipher, set it based on the key given in the module parameter, then use an encrypt function for each byte written to the device, and decrypt each byte read from the device.\\
+    I used AES because it seemed to be the most common and straightforward.
+
+\section{REFLECTIONS}
+    1. I think the point of the assignment was to have us figure out how things worked with little direction, especially things like the crypto API, and loading modules, and using module parameters.\\
+    2. I approached the problem in two parts. First, how did one make a block device, and how does one encrypt with the crypto API.\\
+    3. I tried several methods. I had a key hardcoded and used it to encrypt, and another to decrypt. I also did the same but with two module parameters. And as always, lots of printk statements. \\
+    4. I learned how to compile and load individual kernel modules, about the crypto API, and how memory devices are handled at the kernel level. \\ 
+
+\input{gitlog.tex}
+\end{document}

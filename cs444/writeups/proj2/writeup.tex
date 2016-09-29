@@ -1,0 +1,57 @@
+\documentclass[letterpaper,10pt,titlepage]{article}
+
+\usepackage{graphicx}                                        
+\usepackage{amssymb}                                         
+\usepackage{amsmath}                                         
+\usepackage{amsthm}                                          
+
+\usepackage{alltt}                                           
+\usepackage{float}
+\usepackage{color}
+\usepackage{url}
+
+\usepackage{balance}
+\usepackage[TABBOTCAP, tight]{subfigure}
+\usepackage{enumitem}
+\usepackage{pstricks, pst-node}
+
+\usepackage{geometry}
+\geometry{textheight=8.5in, textwidth=6in}
+
+%random comment
+
+\newcommand{\cred}[1]{{\color{red}#1}}
+\newcommand{\cblue}[1]{{\color{blue}#1}}
+
+\usepackage{hyperref}
+\usepackage{geometry}
+
+\def\name{Taylor Fahlman}
+
+%% The following metadata will show up in the PDF properties
+\hypersetup{
+  colorlinks = true,
+  urlcolor = black,
+  pdfauthor = {\name},
+  pdfkeywords = {cs444 ``operating systemsII''},
+  pdftitle = {CS 444 Project 1},
+  pdfsubject = {CS 444 Project 1},
+  pdfpagemode = UseNone
+}
+
+\begin{document}
+
+\section{PLAN}
+    My plan was to first look at no-op to understand IO schedulers work. I looked at the modularization of the functions, and saw
+    that dispatch executed the request while add managed putting the request in the correct place. I then drew out how the add and
+    dispatch function should work on paper. Then using no-op af a reference, I used the correct struct, etc. to finish the
+    implementation.
+
+\section{REFLECTIONS}
+    1. I think the point of the assignment was to let us figure out how to use kernel modules, and figure out complex code ourselves.\\
+    2. I approached the problem in two parts. First, how did elevator work. Once I figured that out, I moved on to figuring out how to implement it and include it in the kernel.\\
+    3. I made sure it compiled, make sure the kernel used it as default by setting options, fixed many kernel panics, and used printk statements to show my code was actually running. Doing basic file operations worked. \\
+    4. I learned how Kernel moduels work, and a lot about Disk I/O and kernel data structures. \\ 
+
+\input{gitlog.tex}
+\end{document}
