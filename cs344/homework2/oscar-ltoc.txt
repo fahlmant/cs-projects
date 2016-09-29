@@ -1,19 +1,46 @@
-Long table of contents for oscar archive file: oscar24.oscar
+Long table of contents for oscar archive file: oscar12345.oscar
+  File name: 1-s.txt  
+	 File size:   41 bytes
+	 Permissions: rw------- (0600)  
+	 File owner:  taylor (uid: 1001) 
+	 File group:  users (gid: 100) 
+	 Create date: Thu Jul 14 13:24:41 2016
+	 Access date: Thu Jul 14 13:24:50 2016
+	 Modify date: Thu Jul 14 13:24:41 2016
+	 Marked deleted: no
   File name: 2-s.txt  
 	 File size:   82 bytes
-	 Permissions: rw-r--r-- (0644)  
-	 File owner:  chaneyr (uid: 50255) 
-	 File group:  cs344-001-f14 (gid: 14870) 
-	 Create date: Thu Oct 16 21:32:36 2014
-	 Access date: Wed Oct 29 22:54:34 2014
-	 Modify date: Thu Oct 16 21:32:12 2014
+	 Permissions: rw------- (0600)  
+	 File owner:  taylor (uid: 1001) 
+	 File group:  users (gid: 100) 
+	 Create date: Thu Jul 14 13:24:41 2016
+	 Access date: Thu Jul 14 13:24:50 2016
+	 Modify date: Thu Jul 14 13:24:41 2016
+	 Marked deleted: no
+  File name: 3-s.txt  
+	 File size:   123 bytes
+	 Permissions: rw------- (0600)  
+	 File owner:  taylor (uid: 1001) 
+	 File group:  users (gid: 100) 
+	 Create date: Thu Jul 14 13:24:41 2016
+	 Access date: Thu Jul 14 13:24:50 2016
+	 Modify date: Thu Jul 14 13:24:41 2016
 	 Marked deleted: no
   File name: 4-s.txt  
 	 File size:   164 bytes
-	 Permissions: rw-r--r-- (0644)  
-	 File owner:  chaneyr (uid: 50255) 
-	 File group:  cs344-001-f14 (gid: 14870) 
-	 Create date: Thu Oct 16 21:32:36 2014
-	 Access date: Wed Oct 29 22:54:34 2014
-	 Modify date: Thu Oct 16 21:32:12 2014
+	 Permissions: rw------- (0600)  
+	 File owner:  taylor (uid: 1001) 
+	 File group:  users (gid: 100) 
+	 Create date: Thu Jul 14 13:24:41 2016
+	 Access date: Thu Jul 14 13:24:50 2016
+	 Modify date: Thu Jul 14 13:24:41 2016
+	 Marked deleted: no
+  File name: 5-s.txt  
+	 File size:   205 bytes
+	 Permissions: rw------- (0600)  
+	 File owner:  taylor (uid: 1001) 
+	 File group:  users (gid: 100) 
+	 Create date: Thu Jul 14 13:24:41 2016
+	 Access date: Thu Jul 14 13:24:50 2016
+	 Modify date: Thu Jul 14 13:24:41 2016
 	 Marked deleted: no
