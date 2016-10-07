@@ -1,4 +1,5 @@
 \documentclass{article}
+\usepackage{mathtools}
 
 \begin{document}
 \title{CS 419 Homework 1}
@@ -7,15 +8,50 @@
 \begin{flushleft}
 1.4\\
 \end{flushleft}
+
+
 The trapezoidal method is defined as:
 
-
 \begin{equation}
-    w_n = w_{n+1} + (h/2)(f(t_n, w_n) + f(t_{n+1}, w_{n+1}))
+    x_{n+1} = x_{n} + (h/2)(f(t_n, x_n) + f(t_{n+1}, x_{n+1}))
 \end{equation}
 
+The theoretical general formula for methods of integration is defined as:
+\begin{equation}
+    \sum_{k=0}^r \alpha_k x_{j+k} = h \sum_{k+0}^1 \beta_k f(t_{j+k},x_{j+k}) 
+\end{equation}
 
-The stability of this rule with consideration of the amplification factor can be defined as:
+In the case of r=1, this equation becomes:
+\begin{equation}
+    \alpha_0 x_j + \alpha_1 x_{j+1} = h[(\beta_0 f(t_j, x_j)) + (\beta_1f(t_{j+1},x_{j+1}))]
+\end{equation}
+
+Which can be solved as:
+\begin{equation}
+    \alpha_1 x_{j+1} = -\alpha_0 x_j + h[(\beta_0 f(t_j, x_j)) + (\beta_1f(t_{j+1},x_{j+1}))]
+\end{equation}
+
+We can now solve for alpha and beta:
+\begin{equation}
+\alpha = \begin{bmatrix}
+    \alpha_0\\
+    \alpha_1\\
+\end{bmatrix} =\begin{bmatrix}
+    -1\\
+    1\\
+\end{bmatrix}
+\end{equation}
+and
+\begin{equation}
+\beta = \begin{bmatrix}
+    \beta_0\\
+    \beta_1\\
+\end{bmatrix} =\begin{bmatrix}
+    1/2\\
+    1/2\\
+\end{bmatrix}
+\end{equation}
+The stability of the trapezoidal rule with consideration of the amplification factor can be defined as:
 
 \begin{equation}
     Q(h\lambda) = (1+(h/2)\lambda)/(1-(h/2)\lambda)
