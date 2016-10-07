@@ -1,0 +1,92 @@
+\documentclass{article}
+
+\begin{document}
+\title{CS 419 Homework 1}
+\author{Taylor Fahlman}
+\maketitle
+\begin{flushleft}
+1.4\\
+\end{flushleft}
+The trapezoidal method is defined as:
+
+
+\begin{equation}
+    w_n = w_{n+1} + (h/2)(f(t_n, w_n) + f(t_{n+1}, w_{n+1}))
+\end{equation}
+
+
+The stability of this rule with consideration of the amplification factor can be defined as:
+
+\begin{equation}
+    Q(h\lambda) = (1+(h/2)\lambda)/(1-(h/2)\lambda)
+\end{equation}
+
+Where stability is defined as:
+
+\begin{equation}
+    lim_{h->0}|Q(h\lambda)|< = 1
+\end{equation}
+
+And we get our Q function from
+\begin{equation}
+    w_{n+1} = Q(h\lambda)w_n = (Q(h\lambda))^{n+1}y_0
+\end{equation}
+
+This means that for the trapezoidal rule to be stable, h must always be greater than 0. If this is not the case,
+then the defenition of unstable would be true, which is:
+
+\begin{equation}
+    lim_{h->0}|Q(h\lambda)|> 1
+\end{equation}
+
+\begin{flushleft}
+1.9
+\end{flushleft}
+
+Convergence in the case of integration approximation can be defined as: \\
+
+stability + consistency = convergence\\
+
+So we need to estimate stability and consistency to prove convergence. We have
+already solved for stability above. For consistency, we'll need the local truncation error.
+The gerenal form of local truncation error is:
+
+\begin{equation}
+    \tau_{n+1}(h) = (y_{n+1} - z_{n+1})/h
+\end{equation}
+
+And consistency is
+
+\begin{equation}
+    \lim_{h->0}\tau_{n+1} = 0
+\end{equation}
+
+So if we take the expanded taylor series of the trapezoidal rule:
+
+\begin{equation}
+    (1+(h/2)\lambda)/(1-(h/2)\lambda) = 1 + h\lambda + (1/2)(h\lambda)^2 + (1/4)(h\lambda)^3 + O(h^4)
+\end{equation}
+And plug that into the truncation error
+\begin{equation}
+    \tau_{n+1}(h) = ((e^{h\lambda} - Q(h\lambda))y_n)/h = (1/h)(-(1/6)(h\lambda)^3 + O(h^4))y_n    
+\end{equation}
+\begin{equation}
+    (-1/6)h^2\tau^3 + O(h^3))y_n = \tau_{n+1}(h) = O(h^2)
+\end{equation}
+
+The local truncation error is on the order of two. So the trapezoidal rule is a second order method.\\
+
+If we take the same equation for the Forward Euler method, where 
+%\begin{equation}
+
+%\end{equation}
+
+%\begin{equation}
+
+%\end{equation}
+%\begin{equation}
+
+%\end{equation}
+
+
+\end{document}
