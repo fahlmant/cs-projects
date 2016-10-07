@@ -77,16 +77,20 @@ And plug that into the truncation error
 The local truncation error is on the order of two. So the trapezoidal rule is a second order method.\\
 
 If we take the same equation for the Forward Euler method, where 
-%\begin{equation}
+\begin{equation}
+    Q(h\lambda) = 1 + h\lambda
+\end{equation}
 
-%\end{equation}
+Then our truncation turns out to be
+\begin{equation}
+    ((1/2!)h\lambda^2 + O(h^2))y_n = \tau_{n+1}(h) = O(h)
+\end{equation}
 
-%\begin{equation}
-
-%\end{equation}
-%\begin{equation}
-
-%\end{equation}
+And we can see that this is a first order convergence. Backward Euler comes out to be
+the same, but with the first term negative:
+\begin{equation}
+    (-(1/2!)h\lambda^2 + O(h^2))y_n = \tau_{n+1}(h) = O(h)
+\end{equation}
 
 
 \end{document}
