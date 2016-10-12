@@ -1,4 +1,4 @@
-TARGET=hw1
+TARGET=hw2
 HTML=main_html
 
 default: pdf
