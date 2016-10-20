@@ -36,7 +36,7 @@ Before we can integrate, we need to fix the right side of the equation. We take 
 With a common denominator, this turns into
 
 \begin{equation}
-    A(1-X/K) + BP = A + P(B-A/K) = 1
+    A(1-X/K) + BX = A + X(B-A/K) = 1
 \end{equation}
 
 This means that
@@ -72,7 +72,31 @@ If we use u = 1 - X/K and du = -1/X dX for integration with substitution, it tur
 \begin{equation}
     \int \dfrac{-du}{u} = -ln(u) = -ln(1-X/K)    
 \end{equation}
-    
-%    ln(\dfrac{X}{1-X/K})
+
+Which can be rewritten as
+
+\begin{equation}
+    rt + c = ln(X) - ln(1-X/K) = ln(\dfrac{X}{(1-X/K)})
+\end{equation}
+
+Now to eliminate the ln, we can take both sides to the e. We use C to represent the constant.
+
+\begin{equation}
+    Ce^{rt} = \dfrac{X}{1-X/K}
+\end{equation}
+
+Now we can solve for X
+
+\begin{equation}
+    (1-\dfrac{X}{K})Ce^{rt} = X
+\end{equation}
+\begin{equation}
+    Ce^{rt} = X(1+\dfrac{Ce^{rt}}{K})
+\end{equation}
+\begin{equation}
+    X = \dfrac{Ce^{rt}}{1+\dfrac{Ce^{rt}}{K}} 
+\end{equation}
+
+
 
 \end{document}
