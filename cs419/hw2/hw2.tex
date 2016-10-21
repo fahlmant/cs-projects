@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage{mathtools}
+\usepackage[]{mcode}
 
 \begin{document}
 \title{CS 419 Homework 2}
@@ -97,6 +98,32 @@ Now we can solve for X
     X = \dfrac{Ce^{rt}}{1+\dfrac{Ce^{rt}}{K}} 
 \end{equation}
 
+2.3
 
+\begin{lstlisting}
+function xchange = logistic(t, tau)
 
+    r = 1;
+    k = 1000;
+    x = calcx(r, t, k);
+    xtau = calcx(r, (t-tau), k);
+    h = 1;
+    
+    xchange = r*x*(1-x/k)-(h*xtau);
+
+function x=calcx(r, t, x)
+
+    x = (exp(r*t)/(1+(exp(r*t)/k)));
+\end{lstlisting}
+
+If we run this script with the following code we can see our results
+
+\begin{lstlisting}
+tspan = [0 20]
+x0 = 1
+[t,x] = ode45('logistic', tspan, tau)
+plot(t, x, xlabel('Time'), ylabel('Population Density'))
+\end{lstlisting}
+
+After running this model with various values of tau, we see as the value of tau gets larger, the carrying capacity of the population becomes lower and lower.  
 \end{document}
