@@ -1,0 +1,46 @@
+\documentclass{article}
+\usepackage{mathtools}
+\usepackage[]{mcode}
+
+\begin{document}
+\title{CS 419 Homework 3}
+\author{Taylor Fahlman}
+\maketitle
+\begin{flushleft}
+3.1\\
+\end{flushleft}
+
+\begin{lstlisting}
+n = 10;
+h = 100;
+k = .1;
+m1=ones(n-2,1);
+A = spdiags([m1 -2*m1 m1], [-1 0 1], n-2, n-2);
+b=zeros(n-2,1);
+b(1,1) = 0;
+b(n-2,1)=10;
+tau = 1/abs(eig(A));
+for i=1:n-2
+    xj = (h/2) + ((i-1) *h);
+    u0(i) = 10*xj+5*sin(2*pi*xj)*sin(2*pi*xj);
+end
+
+rhs = @(t,u) k*(1/h^2)*A*u+k*(1/h^2)*b;
+
+tic
+[Ts, Xr] = ode45(rhs, [0:0.01:1], u0);
+toc
+
+figure(1), semilogy(1, tau), hold on;
+xlabel('t');
+ylabel('tau');
+title("Tau values");
+
+\end{lstlisting}
+Using various values of n, we see that the higher that n gets, the closer and closer our
+time constant values approach .25 in the upper left value of tau. This is because our coeffecient matrix helps approximate
+the temperature of each part more accurately if there are more parts to measure. 
+The system seems to be decently stiff, with only the lowest values of n varying much, but
+as n approaches 100, the system seems to converge relatively quickly toward one solution.
+
+\end{document}
