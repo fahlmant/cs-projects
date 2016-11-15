@@ -4,7 +4,7 @@
 \begin{document}
 \title{Modeling Acoustic Propagation in Fluids\\
 CS 419}
-\author{Taylor Fahlman}
+\author{Taylor Fahlman, Joshua Bowen}
 \maketitle
 
 \section{Introduction}
@@ -27,19 +27,72 @@ proximity of pods, and various other information vital to their research. These 
 examples of sound modeling. There are many various fields these methods can be applied to. These
 example show the importance of sound modeling, as well as the wide range of applications it can have.
 
+\newpage
 \section{Previous Work}
 Due to the wide array of applications, there are many methods to modeling sound, and each has certain
 aspects it focuses on. For example, some models focus on the density of the fluid, while others factor
 in temperature. There are also different methods for modeling one-dimensional, two-dimensional and
-three-dimensional propagations. All of these various models make it difficult to find exact one needed
-for a given situation. The variability in application also means a variability in complexity. This means
-that overall, it is hard to find and compute the precise solution one wants. 
-
+three-dimensional propagations. Also, some models only look at sound traveling through fluids, but
+others look at how sound results from fluid moving. All of these various models make it difficult to 
+find exact one needed for a given situation. The variability in application also means a variability 
+in complexity. This means that overall, it is hard to find and compute the precise solution one wants.
+Particulary for this problem, the main methods involve either the wave equation, or the Euler identity. 
+Two-dimensional methods use a linear Euler, while three-dimensional use a Non-linear Euler identity, 
+and the equation used measures how sound propogates through water. The model used here is two-dimensional,
+linear Euler equation, focusing on the sound pressure and velocity. Only focusing on these two aspects
+make the model a fast way to find a solution. However, this does not factor temperature, or a number of 
+other important factors. This means that while the solution may be quick, it is more of a rough esitmate
+for an actual system, and may not be suitable for measurements that need high degrees of accuracy.
+However, for this analysis, it is more than adequate.
 
 \section{Contribution}
+In particular, this project is exploring the relationship between velocity and sound pressure. 
+Specfically, to explore the relationship between sound pressure and how velocity affects the
+propagation of various values of pressure. While the research paper (Othman) has already given a solution
+for the equation, it is a general solution and the results it graphs revole around pressure. Instead,
+this project aims to graph how the initial velocity affects the distance travled. A matlab script
+will be written and ran, using initial values given by the paper, and taking the initial value of velocity,
+will graph the distance against velocity for a number of given pressures. Once all of these data points are
+found, then an analysis of how the velocity affects distance will be graphed. This way we can see how velocity
+and pressure are related. This information can help in analysis and understanding of sound in fluids.
+If time permits, testing the same set of pressures and velocities in various fluids will be done. The first
+fluid will be water, and the secondary fluids will be air, and possibly some very vicsous fluid as the third.
+
+\newpage
 
 \section{Prediction}
 
+Given the wide variability of this model, the outcome is uncertain. In comparing fluids, it is known
+that acoustics propgate faster/more easily in water than in air. That outcome is expected. However, for the
+more viscous fliud, given that there is time to test it, I would expect it to propagate slower than water.
+The reason that sound moves through water specifically faster is that is doesn't compress, as air does
+when sound travels through it. However, with a viscous fluid, sound should move slower since it takes
+more energy to move through a fluid as it gets more viscous. The model should reflect this with the 
+alpha variable, which is the attenuation or loss of intensity in a fluid. The larger this is, the
+larger the velocity must be to overcome it. The density, rho, is the main variable that represents
+viscosity as well, and will also influence the outcome significantly. Perhaps the density will allow
+the sound to travel faster similar to traveling through a solid. 
+For the relationship between velocity and pressure, the outcome of this is also uncertain. It will
+interesting to analyze and interpret the data. Based on the current knowledge and progression of this
+project, it seems as if the velocity will carry the sound further the higher it is. As well, it 
+seems as if the pressure will push the sound further, as it has more energy. However, the deceleration in
+certain fluids may be too high for the veloicity to overcome and there could exist some terminal velocity
+where only chaning the pressure can increase the distance traveled, but this model may not be complex enough
+to simulate that. 
+Due to the fact that the model uses a linear Euler method, the velocity and pressure are expected to have
+roughly a linear relationship, with their ratio dependent on the density, speed of sound and gradient
+of the pressure. The linear relationship should therefore get steeper as the viscosity increases. 
+Given enough tests with various viscosities, there should be a point at which increasing the viscosity
+should no longer affect the linear relationship much because it will approach an asymptote. This fluid
+may not exist in real life. There should also be a fluid, most likely water, in which the relationship
+is 1-to-1, or where the graph is the same as f(x) = x. Air should have a flatter slope, as velocity
+should be more important than pressure since the density of air is much lower relatively. 
+Overall, the linear relationship between velocity and pressure should become steeper as the density
+increases, and flatter as the density decreases. It is also expected that at some point, the velocity
+will stop having an affect on the distance as the viscosity of the fluid increases.
+
 \section{Sources}
+The following are links to the research papers used:
+
 
 \end{document}
