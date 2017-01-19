@@ -37,8 +37,9 @@ four = Succ three
 --   >>> pred three
 --   Succ (Succ Zero)
 --   
-pred = undefined
-
+pred :: Nat -> Nat
+pred Zero = Zero
+pred (Succ x) = x
 
 -- | True if the given value is zero.
 --
@@ -48,8 +49,9 @@ pred = undefined
 --   >>> isZero two
 --   False
 --
-isZero = undefined
-
+isZero :: Nat -> Bool
+isZero Zero = True
+isZero _ = False
 
 -- | Convert a natural number to an integer.
 --
@@ -59,7 +61,9 @@ isZero = undefined
 --   >>> toInt three
 --   3
 --
-toInt = undefined
+toInt :: Nat -> Int
+toInt Zero = 0
+toInt x = 1 + (toInt(pred x))
 
 
 -- | Add two natural numbers.
@@ -76,7 +80,10 @@ toInt = undefined
 --   >>> add two three == add three two
 --   True
 --   
-add = undefined
+add :: Nat -> Nat -> Nat
+add Zero x = x
+add x Zero = x
+--add x y = 
 
 
 -- | Subtract the second natural number from the first. Return zero
@@ -94,7 +101,7 @@ add = undefined
 --   >>> sub one three
 --   Zero
 --
-sub = undefined
+--sub = undefined
 
 
 -- | Is the left value greater than the right?
@@ -108,7 +115,7 @@ sub = undefined
 --   >>> gt two two
 --   False
 --
-gt = undefined
+--gt = undefined
 
 
 -- | Multiply two natural numbers.

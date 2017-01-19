@@ -37,19 +37,32 @@ import Prelude hiding (length,sum,product,map,foldr)
 
 
 -- | Add an integer to itself.
-double = undefined
+double :: Int -> Int
+double x = x + x
 
 -- | Is this integer zero?
-isZero = undefined
+isZero :: Int -> Bool
+-- isZero x = x == 0
+isZero 0 = True
+isZero x = False
+
 
 -- | Is this integer non-zero?
-isNonZero = undefined
+isNonZero :: Int -> Bool
+--isNonZero 0 = False
+--isNonZero _ = True
+
+--isNonZero x = not(isZero x), equivalent to the next line
+isNonZero = not . isZero
 
 -- | Computes the average of two floating point numbers.
-avg = undefined
+avg :: Float -> Float -> Float
+avg x y = (x + y)/2.0
 
 -- | Uses avg to compute half of a floating point number.
-half = undefined
+half :: Float -> Float
+--half x = avg x 0
+half = avg 0
 
 
 -- In GHCi:
@@ -77,13 +90,27 @@ data Result = OK Int | Error
 
 -- | Safely divide two integers.
 safeDiv :: Int -> Int -> Result
-safeDiv = undefined
+safeDiv _ 0 = Error
+safeDiv x y = OK (x `div` y)
 
 -- | Add two results.
-addResults = undefined
+addResults :: Result -> Result -> Result
+addResults (OK x) (OK y) = OK (x+y)
+addResults _      _      = Error
+-- r1 r2 = case r1 of
+--           OK x -> case r2 of
+--                     OK y -> OK (x+y)
+--                     Error -> Error
+--                  Error -> Error
+-- r1 r2 = case (r1, r2) of 
+--           (OK x, OK y) -> OK (x+y)
+--           _            -> Error
+
 
 -- | Get the integer from an OK result, or return 0 on an error.
-fromResult = undefined
+fromResult :: Result -> Int
+fromResult (OK x) = x
+fromResult Error = 0
 
 
 
@@ -106,11 +133,14 @@ data List = Nil
   deriving (Eq,Show)
 
 -- | Compute the length of a list.
-listLength = undefined
+listLength :: List -> Int
+listLength Nil = 0
+listLength (Cons h t) = 1 + listLentgh t
 
 -- | Compute the sum of the integers in a list.
-listSum = undefined
-
+listSum :: List -> Int
+listSum Nil = 0
+listSum (Cons h t) = h + listSum t
 
 -------------------
 -- Haskell Lists --
@@ -126,19 +156,29 @@ listSum = undefined
 
 
 -- | Compute the sum of a list.
-length = undefined
+length :: [a] -> Int
+length [] = 0
+length (_:t) = 1 + length t
 
 -- | Compute the sum of an integer list.
-sum = undefined
+sum :: [Int] -> Int
+sum []  = 0
+sum (h:t) = h + sum t
 
 -- | Compute the product of the elements in a list.
-product = undefined
+product :: [Int] -> Int
+product [] = 1
+product (h:t) = h * product t
 
 -- | Double all the elements in an integer list.
-doubleAll = undefined
+doubleAll :: [Int] -> [Int]
+doubleAll [] = []
+doubleAll (h:t) = (2 * h) : doubleAll t
 
 -- | Flip all of the boolean values in a boolean list.
-notAll = undefined
+notAll :: [Bool] -> [Bool]
+notAll [] = []
+notAll (h:t) = not h : notAll t
 
 
 ----------------------------
