@@ -57,7 +57,7 @@ leftmost (Node _ l _) = leftmost l
 --   9
 --
 rightmost :: Tree -> Int
-rightmost (Leaf i) = i
+rightmost (Leaf i)     = i
 rightmost (Node _ _ r) = rightmost r
 
 
@@ -79,7 +79,8 @@ rightmost (Node _ _ r) = rightmost r
 --   9
 --
 maxInt :: Tree -> Int
-maxInt (Leaf i) = i
+maxInt (Leaf i)     = i
+maxInt (Node x l r) = max (max (maxInt l) (maxInt r)) (x)
 
 -- | Get the minimum integer from a binary tree.
 --
@@ -98,8 +99,9 @@ maxInt (Leaf i) = i
 --   >>> minInt t2
 --   1
 --
---minInt :: Tree -> Int
-
+minInt :: Tree -> Int
+minInt (Leaf i)     = i
+minInt (Node x l r) = min (min (minInt l) (minInt r)) (x) 
 
 -- | Get the sum of the integers in a binary tree.
 --
@@ -115,7 +117,9 @@ maxInt (Leaf i) = i
 --   >>> sumInts (Node 10 t1 t2)
 --   100
 --
---sumInts :: Tree -> Tree
+sumInts :: Tree -> Int
+sumInts (Leaf i)     = i
+sumInts (Node x l r) = x + sumInts l + sumInts r
 
 
 -- | The list of integers encountered by a pre-order traversal of the tree.
@@ -132,8 +136,9 @@ maxInt (Leaf i) = i
 --   >>> preorder t2
 --   [6,2,1,4,3,5,8,7,9]
 --   
---preorder :: Tree -> [Int]
-
+preorder :: Tree -> [Int]
+preorder (Leaf i)     = [i]
+preorder (Node x l r) = [x] ++ preorder l ++ preorder r 
 
 -- | The list of integers encountered by an in-order traversal of the tree.
 --
@@ -149,8 +154,9 @@ maxInt (Leaf i) = i
 --   >>> inorder t2
 --   [1,2,3,4,5,6,7,8,9]
 --   
---inorder :: Tree -> [Int]
-
+inorder :: Tree -> [Int]
+inorder (Leaf i)     = [i]
+inorder (Node x l r) = inorder l ++ [x] ++ inorder r 
 
 -- | Check whether a binary tree is a binary search tree.
 --
@@ -166,8 +172,13 @@ maxInt (Leaf i) = i
 --   >>> isBST t2
 --   True
 --   
---isBST :: Tree -> Bool
+nodeValue :: Tree-> Int
+nodeValue (Leaf i) = i
+nodeValue (Node x _ _) = x
 
+isBST :: Tree -> Bool
+isBST (Leaf i)     = True
+isBST (Node x l r) = (nodeValue l) < x && x < (nodeValue r) && isBST l && isBST r
 
 -- | Check whether a number is contained in a binary search tree.
 --   (You may assume that the given tree is a binary search tree.)
@@ -184,4 +195,7 @@ maxInt (Leaf i) = i
 --   >>> inBST 10 t2
 --   False
 --   
---inBST :: Tree -> Bool
+inBST :: Int -> Tree -> Bool
+inBST x (Leaf i)     = i == x
+inBST x (Node y l r) = x == y || inBST x l || inBST x r
+

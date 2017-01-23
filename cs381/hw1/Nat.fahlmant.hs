@@ -51,7 +51,7 @@ pred (Succ x) = x
 --
 isZero :: Nat -> Bool
 isZero Zero = True
-isZero _ = False
+isZero _    = False
 
 -- | Convert a natural number to an integer.
 --
@@ -63,7 +63,7 @@ isZero _ = False
 --
 toInt :: Nat -> Int
 toInt Zero = 0
-toInt x = 1 + (toInt(pred x))
+toInt x    = (1 + (toInt(pred x)))
 
 
 -- | Add two natural numbers.
@@ -81,9 +81,8 @@ toInt x = 1 + (toInt(pred x))
 --   True
 --   
 add :: Nat -> Nat -> Nat
-add Zero x = x
-add x Zero = x
---add x y = 
+add x    Zero = x
+add x    y    = add (Succ x) (pred y)
 
 
 -- | Subtract the second natural number from the first. Return zero
@@ -101,7 +100,9 @@ add x Zero = x
 --   >>> sub one three
 --   Zero
 --
---sub = undefined
+sub :: Nat -> Nat -> Nat
+sub x Zero = x
+sub x y    = sub (pred x) (pred y)
 
 
 -- | Is the left value greater than the right?
@@ -115,8 +116,10 @@ add x Zero = x
 --   >>> gt two two
 --   False
 --
---gt = undefined
-
+gt :: Nat -> Nat -> Bool
+gt Zero Zero = False
+gt x    Zero = True
+gt x    y    = gt (pred x) (pred y )
 
 -- | Multiply two natural numbers.
 --
@@ -132,8 +135,9 @@ add x Zero = x
 --   >>> toInt (mult three three)
 --   9
 --
-mult = undefined
-
+mult :: Nat -> Nat -> Nat
+mult _    Zero = Zero
+mult x    y    = add (x) (mult (x) (pred y))
 
 -- | Compute the sum of a list of natural numbers.
 --
@@ -146,7 +150,9 @@ mult = undefined
 --   >>> toInt (sum [one,two,three])
 --   6
 --
-sum = undefined
+sum :: [Nat] -> Nat
+sum []     = Zero
+sum (x:ys) = add x (sum ys)
 
 
 -- | An infinite list of all of the *odd* natural numbers, in order.
@@ -157,4 +163,6 @@ sum = undefined
 --   >>> toInt (sum (take 100 odds))
 --   10000
 --
-odds = undefined
+odds = one : [Succ (Succ x) | x <- odds]
+
+
