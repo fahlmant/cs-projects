@@ -1,4 +1,4 @@
---ONIDS: fahlmant
+--ONID: fahlmant
 
 module Nat where
 
