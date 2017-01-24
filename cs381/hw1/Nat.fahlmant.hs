@@ -1,3 +1,5 @@
+--ONIDS: fahlmant
+
 module Nat where
 
 import Prelude hiding (Enum(..), sum)
