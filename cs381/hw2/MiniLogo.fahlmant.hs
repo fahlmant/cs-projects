@@ -4,6 +4,8 @@
 module HW2 where
 
 import Prelude hiding (Num) --hide Num
+import Text.Printf
+
 
 data Cmd = SetPen Mode
          | Move Expr Expr
@@ -23,15 +25,51 @@ type Prog = [Cmd]
 --   pen down;
 --   move (x2, y2);
 -- }
-line :: Num -> Num -> Num -> Num -> Prog
-line x1 y1 x2 y2 = [Define "line" ["x1", "y1", "x2", "y2"] [SetPen Up, SetPen Down]]
+line :: Num -> Num -> Num -> Num -> Cmd
+line x1 y1 x2 y2 = Define "line" ["x1", "y1", "x2", "y2"] [SetPen Up, Move (Number x1) (Number y1), SetPen Down, Move (Number x2) (Number y2)]
 
 
 -- define nix (x, y, w, h) {
 --   line(x,   y, x+w, y+h);
 --   line(x+w, y, x,   y+h);
 -- }
-nix :: Num -> Num -> Num -> Num -> Prog
-nix x y w h = [Define "nix" ["x", "y", "w", "h"] [line x y (x+w) (y+h), line (x+w) y x (y+h)]]
+nix :: Num -> Num -> Num -> Num -> Cmd
+nix x y w h = Define "nix" ["x", "y", "w", "h"] [line x y (x+w) (y+h), line (x+w) y x (y+h)]
 
 
+steps :: Int -> Prog
+steps 0 = []
+steps n = [Call "line" [Number (n), Number (n), Number (n-1), Number (n)],
+           Call "line" [Number (n-1), Number (n), Number (n-1), Number (n-1)] ] ++ steps (n-1)
+
+macroName :: Cmd -> [Macro]
+macroName (Define name _ _) = [name]
+macroName _ = []
+
+macros :: Prog -> [Macro]
+macros [] = []
+macros p = macroName (head p) ++ macros (tail p)
+
+
+-- TODO surely this doesn't need to be that verbose
+prettyVar :: [Var] -> String
+prettyVar [] = ""
+prettyVar [v] = v
+prettyVar v = head v ++ "," ++ prettyVar (tail v)
+
+pretty :: Prog -> String
+pretty [] = ""
+pretty cmds = prettyCmd (head cmds) ++ pretty (tail cmds)
+
+prettyExpr :: Expr -> String
+prettyExpr (Variable v) = v
+prettyExpr (Number n) = show n
+
+prettyMode :: Mode -> String
+prettyMode Up = "up"
+prettyMode Down = "down"
+
+prettyCmd :: Cmd -> String
+prettyCmd (Define name varlist innerProg) = printf "define %s (%s){\n%s}\n" name (prettyVar varlist) (pretty innerProg)
+prettyCmd (Move e1 e2) = printf "  move (%s,%s);\n" (prettyExpr e1) (prettyExpr e2)
+prettyCmd (SetPen m) = printf "  pen %s;\n" (prettyMode m)
