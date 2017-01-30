@@ -1,5 +1,5 @@
 -- Taylor Fahlman (fahlmant)
---
+-- Evan Tschuy (tschuye)
 
 module HW2 where
 
