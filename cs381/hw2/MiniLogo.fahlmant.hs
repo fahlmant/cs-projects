@@ -65,6 +65,11 @@ prettyExpr :: Expr -> String
 prettyExpr (Variable v) = v
 prettyExpr (Number n) = show n
 
+prettyExprs :: [Expr] -> String
+prettyExprs [] = ""
+prettyExprs [v] = prettyExpr v
+prettyExprs v = prettyExpr (head v) ++ "," ++ prettyExprs (tail v)
+
 prettyMode :: Mode -> String
 prettyMode Up = "up"
 prettyMode Down = "down"
@@ -72,4 +77,5 @@ prettyMode Down = "down"
 prettyCmd :: Cmd -> String
 prettyCmd (Define name varlist innerProg) = printf "define %s (%s){\n%s}\n" name (prettyVar varlist) (pretty innerProg)
 prettyCmd (Move e1 e2) = printf "  move (%s,%s);\n" (prettyExpr e1) (prettyExpr e2)
+prettyCmd (Call name exprlist) = printf "call %s (%s);\n" name (prettyExprs exprlist)
 prettyCmd (SetPen m) = printf "  pen %s;\n" (prettyMode m)
