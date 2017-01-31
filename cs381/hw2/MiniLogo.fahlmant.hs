@@ -75,6 +75,6 @@ prettyMode Down = "down"
 
 prettyCmd :: Cmd -> String
 prettyCmd (Define name varlist innerProg) = printf "define %s (%s){\n%s}\n" name (prettyVar varlist) (pretty innerProg)
-prettyCmd (Move e1 e2) = printf "  move (%s,%s);\n" (prettyExpr e1) (prettyExpr e2)
-prettyCmd (Call name exprlist) = printf "call %s (%s);\n" name (prettyExprs exprlist) -- what to do about spaces?
-prettyCmd (SetPen m) = printf "  pen %s;\n" (prettyMode m)
+prettyCmd (Move e1 e2) = printf "    move (%s,%s);\n" (prettyExpr e1) (prettyExpr e2)
+prettyCmd (Call name exprlist) = printf "    call %s (%s);\n" name (prettyExprs exprlist) -- what to do about spaces?
+prettyCmd (SetPen m) = printf "    pen %s;\n" (prettyMode m)
