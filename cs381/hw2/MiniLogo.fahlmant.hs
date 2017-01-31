@@ -15,7 +15,7 @@ data Cmd = SetPen Mode
 type Num  = Int
 type Var  = String
 type Macro = String
-data Expr = Variable Var | Number Num | Pair Expr  Expr
+data Expr = Variable Var | Number Num | Add Expr  Expr
 data Mode = Up | Down
 type Prog = [Cmd]
 
@@ -32,8 +32,8 @@ line = Define "line" ["x1", "y1", "x2", "y2"] [SetPen Up, Move (Variable "x1") (
 --   line(x,   y, x+w, y+h);
 --   line(x+w, y, x,   y+h);
 -- }
-nix = Define "nix" ["x", "y", "w", "h"] [Call "line" [(Variable "x"), (Variable "y"), (Variable "x+w"), (Variable "y+h")],
-           Call "line" [(Variable "x+w"), (Variable "y"), (Variable "x"), (Variable "y+h")] ]
+nix = Define "nix" ["x", "y", "w", "h"] [Call "line" [(Variable "x"), (Variable "y"), (Add (Variable "x") (Variable "w")), (Add (Variable "y") (Variable "h"))],
+           Call "line" [(Add (Variable "x") (Variable "w")), (Variable "y"), (Variable "x"), (Add (Variable "y") (Variable "h"))] ]
 
 
 steps :: Int -> Prog
@@ -50,7 +50,7 @@ macros [] = []
 macros p = macroName (head p) ++ macros (tail p)
 
 
--- TODO surely this doesn't need to be that verbose
+-- TODO intersperse or intercalate could make this waaay less verbose
 prettyVar :: [Var] -> String
 prettyVar [] = ""
 prettyVar [v] = v
@@ -63,11 +63,12 @@ pretty cmds = prettyCmd (head cmds) ++ pretty (tail cmds)
 prettyExpr :: Expr -> String
 prettyExpr (Variable v) = v
 prettyExpr (Number n) = show n
+prettyExpr (Add x y) = prettyExpr x ++ "," ++ prettyExpr y
 
 prettyExprs :: [Expr] -> String
 prettyExprs [] = ""
 prettyExprs [v] = prettyExpr v
-prettyExprs v = prettyExpr (head v) ++ "," ++ prettyExprs (tail v)
+prettyExprs v = prettyExpr (head v) ++ "+" ++ prettyExprs (tail v)
 
 prettyMode :: Mode -> String
 prettyMode Up = "up"
