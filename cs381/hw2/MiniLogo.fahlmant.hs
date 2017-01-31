@@ -15,7 +15,7 @@ data Cmd = SetPen Mode
 type Num  = Int
 type Var  = String
 type Macro = String
-data Expr = Variable Var | Number Num | Add Expr  Expr
+data Expr = Variable Var | Number Num | Add Expr  Expr deriving(Show)
 data Mode = Up | Down
 type Prog = [Cmd]
 
@@ -79,3 +79,12 @@ prettyCmd (Define name varlist innerProg) = printf "define %s (%s){\n%s}\n" name
 prettyCmd (Move e1 e2) = printf "    move (%s,%s);\n" (prettyExpr e1) (prettyExpr e2)
 prettyCmd (Call name exprlist) = printf "    call %s (%s);\n" name (prettyExprs exprlist) -- what to do about spaces?
 prettyCmd (SetPen m) = printf "    pen %s;\n" (prettyMode m)
+
+
+optE :: Expr -> Expr
+optE (Add (Number m) (Number n)) = Number (m + n)
+optE (Add m n ) = Add (optE m) (optE n)
+optE e = e
+
+optP :: Prog -> Prog
+optP [] = []
