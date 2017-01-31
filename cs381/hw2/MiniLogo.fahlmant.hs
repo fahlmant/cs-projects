@@ -25,17 +25,15 @@ type Prog = [Cmd]
 --   pen down;
 --   move (x2, y2);
 -- }
-line :: Num -> Num -> Num -> Num -> Cmd
-line x1 y1 x2 y2 = Define "line" ["x1", "y1", "x2", "y2"] [SetPen Up, Move (Number x1) (Number y1), SetPen Down, Move (Number x2) (Number y2)]
+line = Define "line" ["x1", "y1", "x2", "y2"] [SetPen Up, Move (Variable "x1") (Variable "y1"), SetPen Down, Move (Variable "x2") (Variable "y2")]
 
 
 -- define nix (x, y, w, h) {
 --   line(x,   y, x+w, y+h);
 --   line(x+w, y, x,   y+h);
 -- }
-nix :: Num -> Num -> Num -> Num -> Cmd
-nix x y w h = Define "nix" ["x", "y", "w", "h"] [Call "line" [Number (x), Number (y), Number (x+w), Number (y+h)],
-           Call "line" [Number (x+w), Number (y), Number (x), Number (y+h)] ]
+nix = Define "nix" ["x", "y", "w", "h"] [Call "line" [(Variable "x"), (Variable "y"), (Variable "x+w"), (Variable "y+h")],
+           Call "line" [(Variable "x+w"), (Variable "y"), (Variable "x"), (Variable "y+h")] ]
 
 
 steps :: Int -> Prog
@@ -78,5 +76,5 @@ prettyMode Down = "down"
 prettyCmd :: Cmd -> String
 prettyCmd (Define name varlist innerProg) = printf "define %s (%s){\n%s}\n" name (prettyVar varlist) (pretty innerProg)
 prettyCmd (Move e1 e2) = printf "  move (%s,%s);\n" (prettyExpr e1) (prettyExpr e2)
-prettyCmd (Call name exprlist) = printf "call %s (%s);\n" name (prettyExprs exprlist)
+prettyCmd (Call name exprlist) = printf "call %s (%s);\n" name (prettyExprs exprlist) -- what to do about spaces?
 prettyCmd (SetPen m) = printf "  pen %s;\n" (prettyMode m)
