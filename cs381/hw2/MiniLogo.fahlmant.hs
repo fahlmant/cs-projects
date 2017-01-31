@@ -34,7 +34,8 @@ line x1 y1 x2 y2 = Define "line" ["x1", "y1", "x2", "y2"] [SetPen Up, Move (Numb
 --   line(x+w, y, x,   y+h);
 -- }
 nix :: Num -> Num -> Num -> Num -> Cmd
-nix x y w h = Define "nix" ["x", "y", "w", "h"] [line x y (x+w) (y+h), line (x+w) y x (y+h)]
+nix x y w h = Define "nix" ["x", "y", "w", "h"] [Call "line" [Number (x), Number (y), Number (x+w), Number (y+h)],
+           Call "line" [Number (x+w), Number (y), Number (x), Number (y+h)] ]
 
 
 steps :: Int -> Prog
