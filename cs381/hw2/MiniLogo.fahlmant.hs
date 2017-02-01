@@ -60,6 +60,11 @@ pretty :: Prog -> String
 pretty [] = ""
 pretty cmds = prettyCmd (head cmds) ++ pretty (tail cmds)
 
+prettyTabs :: Prog -> String
+prettyTabs [] = "\t"
+prettyTabs [cmd] = "\t" ++ prettyCmd cmd
+prettyTabs cmds = "\t" ++ prettyCmd (head cmds) ++ prettyTabs (tail cmds)
+
 prettyExpr :: Expr -> String
 prettyExpr (Variable v) = v
 prettyExpr (Number n) = show n
@@ -75,10 +80,10 @@ prettyMode Up = "up"
 prettyMode Down = "down"
 
 prettyCmd :: Cmd -> String
-prettyCmd (Define name varlist innerProg) = printf "define %s (%s){\n%s}\n" name (prettyVar varlist) (pretty innerProg)
-prettyCmd (Move e1 e2) = printf "    move (%s,%s);\n" (prettyExpr e1) (prettyExpr e2)
-prettyCmd (Call name exprlist) = printf "    call %s (%s);\n" name (prettyExprs exprlist) -- what to do about spaces?
-prettyCmd (SetPen m) = printf "    pen %s;\n" (prettyMode m)
+prettyCmd (Define name varlist innerProg) = printf "define %s (%s){\n%s}\n" name (prettyVar varlist) (prettyTabs innerProg)
+prettyCmd (Move e1 e2) = printf "move (%s,%s);\n" (prettyExpr e1) (prettyExpr e2)
+prettyCmd (Call name exprlist) = printf "call %s (%s);\n" name (prettyExprs exprlist) -- what to do about spaces?
+prettyCmd (SetPen m) = printf "pen %s;\n" (prettyMode m)
 
 
 optE :: Expr -> Expr
