@@ -68,7 +68,7 @@ cmd (Move x y) (Down, p) = ((Down, (x,y)), Just (p, (x,y)))
 --   ((Down,(2,2)),[((0,0),(0,1)),((0,1),(1,1)),((1,1),(1,2)),((1,2),(2,2))])
 prog :: Prog -> State -> (State, [Line])
 prog []     s = (s, [])
-==prog (x:xs) s =  
+--prog (x:xs) s = 
 
 
 --
