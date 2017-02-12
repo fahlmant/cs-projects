@@ -39,7 +39,7 @@ draw p = let (_,ls) = prog p start in toHTML ls
 
 
 -- | Semantic function for Cmd.
---   
+--
 --   >>> cmd (Pen Down) (Up,(2,3))
 --   ((Down,(2,3)),Nothing)
 --
@@ -69,14 +69,30 @@ cmd (Move x y) (Down, p) = ((Down, (x,y)), Just (p, (x,y)))
 prog :: Prog -> State -> (State, [Line])
 prog []     s = (s, [])
 prog (x:xs) s = case cmd x s of
-    (s', Just x') -> (\(s, xs) -> (s, x':xs)) $ prog xs s' 
+    (s', Just x') -> (\(s, xs) -> (s, x':xs)) $ prog xs s'
     (s', Nothing) -> prog xs s'
 
 --
 -- * Extra credit
 --
 
+boxN :: Int -> Int -> Int -> Prog
+boxN h x y = [Pen Up, Move x y, Pen Down,
+           Move (x+h) y, Move (x+h) (y+h), Move x (y+h), Move x y]
+
+drawN :: Int -> Int -> Int -> Prog
+drawN h x y = [Pen Up, Move x y, Pen Down,
+          Move x (y+h), Move (x+h) (y+h), Move (x+h) y]
+
+horiz :: Int -> Int -> Int -> Prog
+horiz h x y = [Pen Up, Move x y, Pen Down, Move (x+h) y]
+
+vert :: Int -> Int -> Int -> Prog
+vert h x y = [Pen Up, Move x y, Pen Down, Move x (y+h)]
+
 -- | This should be a MiniMiniLogo program that draws an amazing picture.
 --   Add as many helper functions as you want.
 amazing :: Prog
-amazing = undefined
+amazing = boxN 5 1 4 ++ steps 1 6 4 ++ drawN 3 8 4 ++ drawN 3 11 4 ++ boxN 3 15 4 ++ steps 1 18 4
+        ++ horiz 3 20 7 ++ steps 3 20 4 ++ horiz 3 20 4 ++ vert 3 24 4 ++ drawN 3 25 4
+        ++ boxN 3 29 4 ++ steps 3 29 1 
