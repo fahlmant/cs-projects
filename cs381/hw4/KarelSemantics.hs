@@ -10,8 +10,8 @@ import KarelState
 -- | Valuation function for Test.
 test :: Test -> World -> Robot -> Bool
 test (Not    t) w r = not(test t w r)
-test (Facing t) w r = False 
-test (Clear  t) w r = False
+test (Facing c) w r = c == (getFacing r)                        
+test (Clear  d) w r = False
 test (Beeper  ) w _ = False
 test (Empty   ) _ r = False
 
