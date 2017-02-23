@@ -12,8 +12,8 @@ test :: Test -> World -> Robot -> Bool
 test (Not    t) w r = not(test t w r)
 test (Facing c) w r = c == (getFacing r)                        
 test (Clear  d) w r = False
-test (Beeper  ) w _ = False
-test (Empty   ) _ r = False
+test (Beeper  ) w r = hasBeeper (getPos r) w
+test (Empty   ) _ r = isEmpty r
 
 -- | Valuation function for Stmt.
 stmt :: Stmt -> Defs -> World -> Robot -> Result
