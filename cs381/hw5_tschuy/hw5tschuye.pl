@@ -140,7 +140,32 @@ related(X,Y) :- related_(X,Z), related(Z,Y).
 % 1. Define the predicate `cmd/3`, which describes the effect of executing a
 %    command on the stack.
 
-% cmd(C,S1,S2) :-
+bool(t).
+bool(f).
+
+str(X) :- string(X).  % why not have some wrappers
+num(X) :- integer(X). % wrappers fo dayz
+
+raw(X) :- bool(X); str(X); num(X).
+
+% push to stack
+cmd(C,S1,S2) :- raw(C), append([C], S1, S2).
+
+% add
+cmd(C,S1,S2) :- C == add,
+  [A,B|T] = S1,
+  Res is A+B,
+  append([Res], T, S2).
+
+% lte
+cmd(C,S1,S2) :- C == lte,
+  [A,B|T] = S1, (
+    A < B -> Res = t ;
+    Res = f
+  ),
+  append([Res], T, S2).
+
+% if(prog,prog)
 
 % 2. Define the predicate `prog/3`, which describes the effect of executing a
 %    program on the stack.
