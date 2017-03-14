@@ -1,3 +1,7 @@
+% ONIDs:
+% - tschuye
+% fahlmant
+
 % Here are a bunch of facts describing the Simpson's family tree.
 % Don't change them!
 
