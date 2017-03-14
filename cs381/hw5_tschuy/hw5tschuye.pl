@@ -114,9 +114,33 @@ related(X,Y) :- related_(X,Z), related(Z,Y).
 % Part 2. Language implementation
 %%
 
+%% language syntax
+% num	 ::= (any number literal)
+% str	 ::= (any string literal)
+% bool ::=	t   | f	         -- boolean literals
+% prog ::=	cmd∗∗	           -- sequence of commands
+% cmd 	::=	num | str | bool -- push a literal onto the stack
+%         |	add | lte	       -- number addition/comparison
+%         |	if(prog,prog)	   -- conditional branching
+%%
+
+%% example commands
+% if(["foo"],[3]) -- parses progs
+% lte             -- uses stack
+% 5               -- int literal
+%%
+
+%% example stacks
+% ["goodbye"]
+% ["hello", 4]
+% [f, t]
+% [5,3,t]
+%%
+
 % 1. Define the predicate `cmd/3`, which describes the effect of executing a
 %    command on the stack.
 
+% cmd(C,S1,S2) :-
 
 % 2. Define the predicate `prog/3`, which describes the effect of executing a
 %    program on the stack.
