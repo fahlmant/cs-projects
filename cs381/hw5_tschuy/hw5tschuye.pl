@@ -166,6 +166,14 @@ cmd(C,S1,S2) :- C == lte,
   append([Res], T, S2).
 
 % if(prog,prog)
+cmd(if(P1,P2),[H|T],S2) :- (
+    H == t -> prog(P1, T, S2) ;
+    prog(P2, T, S2)
+  ).
 
 % 2. Define the predicate `prog/3`, which describes the effect of executing a
 %    program on the stack.
+
+% Si = intermediate, So = original, Sr = result
+prog([H|[]],So,Sr) :- cmd(H, So, Sr).
+prog([H|T],So,Sr) :- cmd(H, So, Si), prog(T, Si, Sr).
