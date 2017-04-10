@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#define NUMT	         4
+//#define NUMT	         
 #define ARRAYSIZE       1000	// you decide
 #define NUMTRIES        100	// you decide
 
