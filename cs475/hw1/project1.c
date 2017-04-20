@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include <math.h>
 
-#define NUMNODES 12
-
 #define XMIN	 0.
 #define XMAX	 3.
 #define YMIN	 0.
@@ -92,16 +90,37 @@ int main( ) {
 #endif
 
     omp_set_num_threads( NUMT );
-    fprintf( stderr, "Using %d threads\n", NUMT );
+    fprintf( stderr, "Using %d threads, with %d nodes\n", NUMT, NUMNODES );
 
-	#pragma omp parallel for collapse(2)
+    float fullTileArea = (  ( (XMAX-XMIN)/(float)(NUMNODES-1) )  *  ( ( YMAX - YMIN )/(float)(NUMNODES-1) )  );
+    
+    float total_volume = 0;
+    double first_time = omp_get_wtime();
+	#pragma omp parallel for collapse(2), default(none), reduction(+:total_volume), shared(fullTileArea)
 	for( int iv = 0; iv < NUMNODES; iv++ )
 	{
 		for( int iu = 0; iu < NUMNODES; iu++ )
 		{
+            float scale = 1.0;
+            float to_add = 0.0;
+            if (iv == 0 || iv == NUMNODES -1) {
+                if (iu == 0 || iu == NUMNODES -1)
+                {
+                    scale = .25; 
+                }
+                else {
+                    scale = .5;
+                }
+            }
 
-
+            to_add = fullTileArea * Height(iu, iv);
+            to_add *= scale;
+            total_volume += to_add;
 		}
 	}
+    double end_time = omp_get_wtime();
+    double time = (double)(end_time - first_time);
+    printf("Totaly Time: %f\n", time);
+    printf("Total Volume: %f\n", total_volume);
     return 0;
 }
