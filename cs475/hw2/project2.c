@@ -27,14 +27,19 @@ int main( ) {
     omp_set_num_threads( NUMT );
     fprintf( stderr, "Using %d threads\n", NUMT );
 
-    #pragma omp parallel for schedule(dynamic, 4096), default(none), private(prod), shared(array)
+    double time0 = omp_get_wtime();
+    
+    #pragma omp parallel for schedule(CHUNKTYPE, CHUNKSIZE), default(none), private(prod), shared(array)
     for(int i = 0; i < ARRAYSIZE; i++) {
         prod = 1.;
         for(int j = 0; j < i; j++) {
             prod *= array[j];
-            printf("J: %d\n", i);
         }
     }
+    
+    double time1 = omp_get_wtime();
+    long int numMuled = (long int)ARRAYSIZE * (long int)(ARRAYSIZE+1) / 2;
+    fprintf( stderr, "Threads = %2d; ChunkSize = %5d; Scheduling=static ; MegaMults/sec = %10.2lf\n", NUMT, CHUNKSIZE, (double)numMuled/(time1-time0)/1000000. );
         
 
     return 0;
