@@ -23,7 +23,6 @@ int main( ) {
     double time0 = omp_get_wtime();
     const int SomeBigNumber = 100000000;    // keep < 2B
 
-    double time0 = omp_get_wtime();
 
     #pragma omp parallel for
     for( int i = 0; i < 4; i++ )
@@ -37,7 +36,7 @@ int main( ) {
     
     double time1 = omp_get_wtime();
     //long int numMuled =  / 2;
-    fprintf( stderr, "Threads = %2d; NumPads = %5d; Scheduling=static ; MegaMults/sec = %10.2lf\n", NUMT, NUMPAD, (double)numMuled/(time1-time0)/1000000. )     
+    fprintf( stderr, "Threads = %2d; NumPads = %5d; Scheduling=static ; MegaMults/sec = %10.2lf\n", NUMT, NUMPAD, (time1-time0));//(double)numMuled/(time1-time0)/1000000. )     
 
     return 0;
 }
