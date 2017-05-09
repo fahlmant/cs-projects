@@ -28,9 +28,10 @@ int main( ) {
     for( int i = 0; i < 4; i++ )
     {
         unsigned int seed = 0;      // automatically private
+        float tmp = Array[i].value;
         for( unsigned int j = 0; j < SomeBigNumber; j++ )
         {
-            Array[ i ].value = Array[ i ].value + (float)rand_r( &seed );
+            tmp = tmp + (float)rand_r( &seed );
         }
     }
     
