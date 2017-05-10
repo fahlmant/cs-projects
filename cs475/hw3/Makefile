@@ -170,7 +170,7 @@ eight-fix2-test: eight-fix2
 	./proj3-eightt-f2
 
 tests: one-tests two-tests four-tests eight-tests
-fix2-tests: one-fix2-test two-fix2-test four-fix2-test eigth-fix2-test
+fix2-tests: one-fix2-test two-fix2-test four-fix2-test eight-fix2-test
 
 clean:
 	rm -rf proj3-*
