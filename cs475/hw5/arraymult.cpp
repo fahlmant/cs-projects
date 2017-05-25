@@ -17,16 +17,20 @@ int main() {
         return 1;
     #endif
 
+    float sum1;
+    float sum2;
     float *A = new float[NUMM];
     float *B = new float[NUMM];
     float *C = new float[NUMM];
     float *D = new float[NUMM];
+    float *E = new float[NUMM];
+    float *F = new float[NUMM];
 
     for(int i = 0; i < NUMM; i++) {
         A[i] = randf(&seed);    
-    }
-    for(int i = 0; i < NUMM; i++) {
         B[i] = randf(&seed);    
+        E[i] = randf(&seed);    
+        F[i] = randf(&seed);    
     }
     
     double time0 = omp_get_wtime();
@@ -43,17 +47,17 @@ int main() {
     fprintf(stdout, "Speedup Mult P: %f\n", result2/result1);
 
     double time4 = omp_get_wtime();
-    ArrayMultSum(A, B, NUMM); 
+    sum1 = ArrayMultSum(E, F, NUMM); 
     double time5 = omp_get_wtime();
     double result3 = ((double)NUMM/(time5-time4));
     
 
     double time6 = omp_get_wtime();
-    SimdMulSum(A, B, NUMM); 
+    sum2 = SimdMulSum(E, F, NUMM); 
     double time7 = omp_get_wtime();
     double result4 = ((double)NUMM/(time7-time6));
 
-    fprintf(stdout, "Speedup Reduction P: %f\n", result2/result1);
+    fprintf(stdout, "Speedup Reduction P: %f\n", result4/result3);
 
 
     return 0;
@@ -81,4 +85,5 @@ float ArrayMultSum(float *a, float *b, int k) {
         
         result += a[i] * b[i];
     }
+    return result;
 }
