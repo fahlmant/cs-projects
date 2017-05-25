@@ -32,24 +32,28 @@ int main() {
     double time0 = omp_get_wtime();
     ArrayMult(A, B, C, NUMM); 
     double time1 = omp_get_wtime();
-    fprintf(stdout, "Num of elements: %d, My ArrayMult Megamults/sec: %f\n", NUMM, ((double)NUMM/(time1-time0))/1000000);
+    double result1 = ((double)NUMM/(time1-time0));
+    double time_result1 = time1-time0;
 
     double time2 = omp_get_wtime();
     SimdMul(A, B, D, NUMM); 
-    double time3 = omp_get_wtime();
-    fprintf(stdout, "Num of elements: %d, SimdArrayMult Megamults/sec: %f\n", NUMM, ((double)NUMM/(time3-time2))/1000000);
-
+    double time3 = omp_get_wtime(); 
+    double result2 = ((double)NUMM/(time3-time2));
+    
+    fprintf(stdout, "Speedup Mult P: %f\n", result2/result1);
 
     double time4 = omp_get_wtime();
     ArrayMultSum(A, B, NUMM); 
     double time5 = omp_get_wtime();
-    fprintf(stdout, "Num of elements: %d, My ArrayMultSum Megamults/sec: %f\n", NUMM, ((double)NUMM/(time5-time4))/1000000);
+    double result3 = ((double)NUMM/(time5-time4));
+    
 
     double time6 = omp_get_wtime();
     SimdMulSum(A, B, NUMM); 
     double time7 = omp_get_wtime();
-    fprintf(stdout, "Num of elements: %d, SimdArrayMultSum Megamults/sec: %f\n", NUMM, ((double)NUMM/(time7-time6))/1000000);
+    double result4 = ((double)NUMM/(time7-time6));
 
+    fprintf(stdout, "Speedup Reduction P: %f\n", result2/result1);
 
 
     return 0;
@@ -59,6 +63,7 @@ int main() {
 float randf(unsigned int *seedp){
     
     float r = (float) rand_r(seedp);
+    return r;
 }
 
 void ArrayMult(float *a, float *b, float *c, int k) {
