@@ -154,7 +154,7 @@ main( int argc, char *argv[ ] )
 
 	// 9. create the kernel object:
 
-	cl_kernel kernel = clCreateKernel( program, "ArrayMult", &status );
+	cl_kernel kernel = clCreateKernel( program, "ArrayReduction", &status );
 	if( status != CL_SUCCESS )
 		fprintf( stderr, "clCreateKernel failed\n" );
 
