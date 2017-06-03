@@ -64,14 +64,13 @@ main( int argc, char *argv[ ] )
 
 	float *hA = new float[ NUM_ELEMENTS ];
 	float *hB = new float[ NUM_ELEMENTS ];
-	float *hC = new float[ NUM_ELEMENTS ];
 	float *hD = new float[ NUM_ELEMENTS ];
 
 	// fill the host memory buffers:
 
 	for( int i = 0; i < NUM_ELEMENTS; i++ )
 	{
-		hA[i] = hB[i] = hC[i] = (float) sqrt(  (double)i  );
+		hA[i] = hB[i] = (float) sqrt(  (double)i  );
 	}
 
 	size_t dataSize = NUM_ELEMENTS * sizeof(float);
@@ -98,10 +97,6 @@ main( int argc, char *argv[ ] )
 	if( status != CL_SUCCESS )
 		fprintf( stderr, "clCreateBuffer failed (2)\n" );
 
-	cl_mem dC = clCreateBuffer( context, CL_MEM_READ_ONLY, dataSize, NULL, &status );
-	if( status != CL_SUCCESS )
-		fprintf( stderr, "clCreateBuffer failed (3)\n" );
-
     cl_mem dD = clCreateBuffer( context, CL_MEM_WRITE_ONLY, dataSize, NULL, &status );
 	if( status != CL_SUCCESS )
 		fprintf( stderr, "clCreateBuffer failed (4)\n" );
@@ -116,9 +111,9 @@ main( int argc, char *argv[ ] )
 	if( status != CL_SUCCESS )
 		fprintf( stderr, "clEnqueueWriteBuffer failed (2)\n" );
 
-    status = clEnqueueWriteBuffer( cmdQueue, dC, CL_FALSE, 0, dataSize, hC, 0, NULL, NULL );
-	if( status != CL_SUCCESS )
-		fprintf( stderr, "clEnqueueWriteBuffer failed (3)\n" );
+    //status = clEnqueueWriteBuffer( cmdQueue, dC, CL_FALSE, 0, dataSize, hC, 0, NULL, NULL );
+	//if( status != CL_SUCCESS )
+//		fprintf( stderr, "clEnqueueWriteBuffer failed (3)\n" );
 
 	Wait( cmdQueue );
 
@@ -159,7 +154,7 @@ main( int argc, char *argv[ ] )
 
 	// 9. create the kernel object:
 
-	cl_kernel kernel = clCreateKernel( program, "ArrayMultAdd", &status );
+	cl_kernel kernel = clCreateKernel( program, "ArrayMult", &status );
 	if( status != CL_SUCCESS )
 		fprintf( stderr, "clCreateKernel failed\n" );
 
@@ -173,11 +168,11 @@ main( int argc, char *argv[ ] )
 	if( status != CL_SUCCESS )
 		fprintf( stderr, "clSetKernelArg failed (2)\n" );
 
-	status = clSetKernelArg( kernel, 2, sizeof(cl_mem), &dC );
-	if( status != CL_SUCCESS )
-		fprintf( stderr, "clSetKernelArg failed (3)\n" );
+	//status = clSetKernelArg( kernel, 2, sizeof(cl_mem), &dC );
+	//if( status != CL_SUCCESS )
+//		fprintf( stderr, "clSetKernelArg failed (3)\n" );
 
-    status = clSetKernelArg( kernel, 3, sizeof(cl_mem), &dD );
+    status = clSetKernelArg( kernel, 2, sizeof(cl_mem), &dD );
 	if( status != CL_SUCCESS )
 		fprintf( stderr, "clSetKernelArg failed (4)\n" );
 
@@ -234,12 +229,10 @@ main( int argc, char *argv[ ] )
 	clReleaseCommandQueue(  cmdQueue );
 	clReleaseMemObject(     dA  );
 	clReleaseMemObject(     dB  );
-	clReleaseMemObject(     dC  );
 	clReleaseMemObject(     dD  );
 
 	delete [ ] hA;
 	delete [ ] hB;
-	delete [ ] hC;
 	delete [ ] hD;
 
 	return 0;
