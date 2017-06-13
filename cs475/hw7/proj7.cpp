@@ -37,7 +37,7 @@ int main() {
         Sums[shift] = sum;  // note the "fix #2" from false sharing if you are using OpenMP
     }
 
-    for(int i = 0; i < Size; i++)
+    for(int i = 0; i < 513; i++)
         printf("%f,", Sums[i+1]);
 
     return 0;
