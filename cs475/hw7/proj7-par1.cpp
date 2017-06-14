@@ -1,5 +1,5 @@
+#include <omp.h>
 #include <stdlib.h>
-
 #include <stdio.h>
 
 
@@ -26,7 +26,11 @@ int main() {
     }
     fclose( fp );
 
+    omp_set_num_threads(1);
 
+    double time0 = omp_get_wtime( );
+
+    #pragma omp parallel for
     for( int shift = 0; shift < Size; shift++ )
     {
         float sum = 0.;
@@ -36,9 +40,8 @@ int main() {
         }
         Sums[shift] = sum;  // note the "fix #2" from false sharing if you are using OpenMP
     }
-
-    for(int i = 0; i < 513; i++)
-        printf("%f,", Sums[i+1]);
+    double time1 = omp_get_wtime( );
+    printf("Total time: %f\n", time1-time0);
 
     return 0;
 
