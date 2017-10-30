@@ -1,0 +1,11 @@
+In order to run the server, simply run 
+
+./chatserver.py <port #>
+
+For the serverside, first run
+
+make
+
+And then to connect to the server, run:
+
+./chatclient <hostname> <port #>
