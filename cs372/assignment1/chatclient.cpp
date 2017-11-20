@@ -37,12 +37,12 @@ int make_socket() {
 }
 
 //Initializes connection from client to server
-void init_connection_socket(int fd, struct sockaddr_in *addr ) {
+void init_connection_socket(int fd, struct  addrinfo *addr ) {
 
     //Uses connect() call from sockets, passing the file descriptor,
     //address and address length
 //    int result = connect(fd, addr->ai_addr, addr->ai_addrlen);
-    int result = connect(fd, (struct sockaddr *)&addr, sizeof(addr));
+    int result = connect(fd, addr->ai_addr, addr->ai_addrlen);
     if(result == -1) {
         printf("Error connecting, aborting\n");
         exit(1);
@@ -128,19 +128,14 @@ int main(int argc, char** argv) {
 
     //Declare addrinfo structs, feed in both hostname and port. 
     struct addrinfo hints, *addr_info;
-    struct sockaddr_in server_addr;
-    memset(&server_addr, 0, sizeof(struct sockaddr_in));
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(atoi(argv[2]));
-    inet_pton(server_addr.sin_family, argv[1], &server_addr.sin_addr);
-//    int result = getaddrinfo(argv[1], argv[2], &hints, &addr_info);
+    int result = getaddrinfo(argv[1], argv[2], &hints, &addr_info);
 
     //Get te handle from the user
     get_handle(handle);
     //Create socket
     fd = make_socket();
     //Connect socket to server
-    init_connection_socket(fd, &server_addr);
+    init_connection_socket(fd, addr_info);
     //Handshake, and exchange handles
     connect_to_server(fd, handle, serverhandle);
     //Loop sending and recieving messages until user quits. 
