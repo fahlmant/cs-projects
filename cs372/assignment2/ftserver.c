@@ -1,3 +1,10 @@
+/****
+ *Taylor Fahlman
+ *CS 372, Section 400
+ *Assignment 2
+ *Citations in README
+**/
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,76 +18,27 @@
 #include <string.h>
 #include <dirent.h>
 
+//Removes spaces from buffers with extra spaces, from stackoverflow:
+//
+void remove_spaces(char *my_string) {
 
-void send_file(int conn_fd, int data_fd) {
-
-}
-
-void list_and_send_dir(int conn_fd, int data_fd) {
-
-    DIR *d;
-    struct dirent *dir;
-    d = opendir(".");
-    int num_files = 0;
-    if(d) {
-        while ((dir = readdir(d)) != NULL) {
-            printf("%s\n", dir->d_name);
-            num_files++;
-
+    char *i = my_string;
+    char *j = my_string;
+    while(*j != 0) {
+        *i = *j++;
+        if(*i != ' ') {
+            i++;
         }
     }
+    *i = 0;
 }
 
-void handle_request(int client_fd) {
+//Connects to the data port and returns the file desc.
+int get_data_port_fd(char* ip, char* port) {
 
-    char client_data[1000];
-    memset(client_data, 0, sizeof(client_data));
-
-
-    char client_ip[99];
-    memset(client_ip, 0, sizeof(client_ip));
-    char client_command[99];
-    memset(client_command, 0, sizeof(client_command));
-    char client_data_port[99];
-    memset(client_data_port, 0, sizeof(client_data_port));
-    char client_file_req[99];
-    memset(client_file_req, 0, sizeof(client_file_req));
-
-
-    printf("Receiving command from client\n");
-    recv(client_fd, client_ip, sizeof(client_ip)-1, 0);
-    printf("Recieved IP: %s\n", client_ip);
-    
-    recv(client_fd, client_command, sizeof(client_command)-1, 0);
-    printf("Recieved Command: %s\n", client_command);
-    
-    if(strstr(client_command, "-g") {
-        recv(client_fd, client_file_req, sizeof(client_file_req)-1, 0);
-        printf("Recieved file requested: %s\n", client_file_req);
-    }
-
-    recv(client_fd, client_data_port, sizeof(client_data_port)-1, 0);
-    printf("Recieved data port: %s\n", client_data_port);
-    sleep(2);
-   
-
-    
-    
-    if(strstr(client_command, "-l")) {
-        printf("List\n");
-        list_and_send_dir(client_fd, 0);
-    }
-    else if(strstr(client_data, "-g")) {
-        printf("Get file\n");
-    }
-    else {
-        printf("Please provide a valid option\n");
-    }*/
-    
-/*
-    //Use Beej's guide to fill out addrinfo structs
+    //Beej's guide to fill out addrinfo structs
     struct addrinfo hints, *res;
-    int result; 
+    int result;
 
     //More Beej's guide, set the type of port and protocol (ipv4 and tcp)
     memset(&hints, 0, sizeof hints);
@@ -88,10 +46,166 @@ void handle_request(int client_fd) {
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_flags = AI_PASSIVE;
 
-    //Get the nessesary information to connect to the port
-    getaddrinfo(NULL, port, &hints, &res);
-*/
+    result = getaddrinfo(ip, port, &hints, &res);
 
+    //Create socket, a la Beej's
+    int client_data_fd = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
+    if(client_data_fd == -1) {
+        printf("Connection to client data port failed, aborting\n");
+        exit(1);
+    }
+
+    //Connect to data port on client and return file descriptor
+    result = connect(client_data_fd, res->ai_addr, res->ai_addrlen); 
+    return client_data_fd;
+    
+}
+
+int list_dir(char **file_list) {
+
+    DIR *d;
+    struct dirent *dir;
+    d = opendir(".");
+    int num_files = 0;
+    int i = 0;
+    if(d) {
+        while ((dir = readdir(d)) != NULL) {
+                file_list[i] = dir->d_name;
+                i++;
+        }
+    }
+    return i;
+}
+
+//Ensures file exists, then sends it to client 
+void send_file(int conn_fd, int data_fd, char* file_name) {
+
+    //First, check if file exists
+    int i = 0;
+    int exists = 0;
+    char *file_list[100];
+    int num_files = list_dir(file_list);
+    //Loops through all files in directory to see if the file exists
+    for(i = 0; i < num_files; i++) {
+        if(strcmp(file_list[i], file_name) == 0) {
+            exists = 1;
+        }
+    }
+
+    if(exists == 1) {
+        char file_buffer[1000];
+        memset(file_buffer, 0, sizeof(file_buffer));
+        int file_fd = open(file_name, O_RDONLY);
+    	while (1) {
+	    	int bytes_read = read(file_fd, file_buffer, sizeof(file_buffer)-1);
+		    if (bytes_read == 0) // We're done reading from the file
+			    break;
+
+    		if (bytes_read < 0) {
+	    		printf("Error reading file\n");
+		    	return;
+    		}
+            send(data_fd, file_buffer, sizeof(file_buffer) - 1, 0);
+   
+    	}
+    }
+    else {
+        printf("The requested file does not exist\n");
+    }
+
+}
+
+//List and send the current directory to the client
+void send_dir(int conn_fd, int data_fd) {
+
+    //Leaving for reference purpose
+    /*
+    DIR *d;
+    struct dirent *dir;
+    d = opendir(".");
+    int num_files = 0;
+    if(d) {
+        while ((dir = readdir(d)) != NULL) {
+            //For each file in the directory, send it and a newline to client 
+            send(data_fd, dir->d_name, strlen(dir->d_name), 0);
+            send(data_fd, "\n", strlen("\n"), 0);
+        }
+    }*/
+
+    int i = 0;
+    char *file_list[100];
+
+    //Get list of all files in directory
+    int num_files = list_dir(file_list);
+    for (i = 0; i < num_files; i++){
+        send(data_fd, file_list[i], strlen(file_list[i]), 0);
+        send(data_fd, "\n", strlen("\n"), 0);
+    }
+}
+
+//Function to handle data and request from client
+void handle_request(int client_fd) {
+
+    //Set up buffers for client IP, port, command and filename
+    char client_ip[100];
+    memset(client_ip, 0, sizeof(client_ip));
+    char client_command[100];
+    memset(client_command, 0, sizeof(client_command));
+    char client_data_port[100];
+    memset(client_data_port, 0, sizeof(client_data_port));
+    char client_file_req[100];
+    memset(client_file_req, 0, sizeof(client_file_req));
+
+
+    printf("Receiving command from client\n");
+
+    //Recieves IP into IP buffer
+    recv(client_fd, client_ip, sizeof(client_ip)-1, 0);
+    printf("Recieved IP: %s\n", client_ip);
+    
+    //Recieves command into command
+    recv(client_fd, client_command, sizeof(client_command)-1, 0);
+    printf("Recieved Command: %s\n", client_command);
+    
+    //If the command is -g, receive filename into filename buffer
+    if(strstr(client_command, "-g")) {
+        recv(client_fd, client_file_req, sizeof(client_file_req)-1, 0);
+        printf("Recieved file requested: %s\n", client_file_req);
+        remove_spaces(client_file_req);
+        //From stackoverflow, removes newline:
+        //
+        strtok(client_file_req, "\n");
+    }
+
+    //Receive data port into data port buffer
+    recv(client_fd, client_data_port, sizeof(client_data_port)-1, 0);
+    printf("Recieved data port: %s\n", client_data_port);
+    //Ensure that the server and client both are at the same place by sleeping
+    sleep(2);
+  
+    //Since buffers are 100 bytes, stripes all the spaces that the client appends
+    remove_spaces(client_ip);
+    remove_spaces(client_data_port);
+
+    //Connect to the data port
+    int data_port_fd = get_data_port_fd(client_ip, client_data_port);
+    
+    //Either list directory or get file depending on command, or ask for valid command
+    if(strstr(client_command, "-l")) {
+        printf("Sending directory list\n");
+        send_dir(client_fd, data_port_fd);
+    }
+    else if(strstr(client_command, "-g")) {
+        printf("Attempting to send file %s\n", client_file_req);
+        send_file(client_fd, data_port_fd, client_file_req);
+    }
+    else {
+        printf("Please provide a valid option\n");
+    }
+
+    //Close the data port now that we're done with it
+    close(data_port_fd);
+    
 }
 
 //Idle until a client connects
@@ -160,6 +274,7 @@ int startup(char *port) {
 
 int main(int argc, char** argv) {
 
+    //Ensure there is a port, and only use the first argument
     if (argc < 2) {
         printf("Please provide a valid port number\n");
         exit(1);
@@ -167,7 +282,6 @@ int main(int argc, char** argv) {
     if (argc > 2) {
         printf("See more than one argument, only using the first\n");
     }
-    //validate_port(argv);
   
     //Get socket set up on port provided by command line
     int fd = startup(argv[1]);

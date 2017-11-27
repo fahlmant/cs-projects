@@ -1,4 +1,4 @@
 all:
-	gcc ftserver.c -o ftserver
+	gcc  -g ftserver.c -o ftserver
 clean:
 	rm -f ftserver
