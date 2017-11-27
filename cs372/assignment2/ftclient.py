@@ -66,9 +66,11 @@ def make_request(client_sock, ip):
         client_sock.send(data_port)
         return sys.argv[4]
 
-def receive_file():
+def receive_file(server_data_sock):
 
-    pass
+    file_to_write = open(sys.argv[4], "w")
+    file_buffer = server_data_sock.recv(10000)
+    file_to_write.write(file_buffer)
 
 def receive_response(s, data_port):
     
@@ -82,6 +84,7 @@ def receive_response(s, data_port):
     server_data_sock, addr = data_sock.accept()
     if option == '-g':
         print('Receiving file ' + str(sys.argv[4]))
+        receive_file(server_data_sock)
     else:
         print('Receiving directory list')
         dir_buffer = server_data_sock.recv(1024)
