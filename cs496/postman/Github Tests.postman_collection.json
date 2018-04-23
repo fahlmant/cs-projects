@@ -1,0 +1,275 @@
+{
+	"info": {
+		"_postman_id": "68419233-758e-4152-95b5-3519045e6f87",
+		"name": "Github Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Public Gist Count",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0d5d587f-c995-427b-be19-dedb9a3a72e3",
+						"type": "text/javascript",
+						"exec": [
+							"var body = JSON.parse(responseBody);",
+							"tests[\"Public gists GET returns 30 or more gists\"] = body.length >= 30;"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "https://api.github.com/gists"
+			},
+			"response": []
+		},
+		{
+			"name": "Wolford Gists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ce51bef5-ccb1-4bf4-a058-062596766de5",
+						"type": "text/javascript",
+						"exec": [
+							"var body = JSON.parse(responseBody);",
+							"tests[\"Wolfordj at least has one gist\"] = body.length >= 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "https://api.github.com/users/wolfordj/gists"
+			},
+			"response": []
+		},
+		{
+			"name": "Get number of gists before creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b667ba03-1ee4-4906-b9e9-319dbd0fc322",
+						"type": "text/javascript",
+						"exec": [
+							"var body = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"numFahlmantGists\", body.length);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "https://api.github.com/users/fahlmant/gists"
+			},
+			"response": []
+		},
+		{
+			"name": "Create new gist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "19a50a47-fa27-49ad-ab52-b4b72b9e8437",
+						"type": "text/javascript",
+						"exec": [
+							"var body = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"gistID\", body.id);",
+							"tests['Gist content is correct'] = body.files.file1.content === 'CS 496';"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"description\": \"the description for this gist\",\r\n  \"public\": true,\r\n  \"files\": {\r\n    \"file1\": {\r\n      \"content\": \"CS 496\"\r\n    }\r\n  }\r\n}"
+				},
+				"url": "https://api.github.com/gists"
+			},
+			"response": []
+		},
+		{
+			"name": "Get number of gists after creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d453db6b-6d94-4cb4-b183-deaa4ada7726",
+						"type": "text/javascript",
+						"exec": [
+							"var body = JSON.parse(responseBody);",
+							"tests[\"Fahlmant gist number has increased\"] = body.length > (globals.numFahlmantGists)"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "https://api.github.com/users/fahlmant/gists"
+			},
+			"response": []
+		},
+		{
+			"name": "Edit gist content",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e769ed7a-c13b-4bde-80dd-bf05a375c5e0",
+						"type": "text/javascript",
+						"exec": [
+							"var body = JSON.parse(responseBody);",
+							"tests['Gist content is correct'] = body.files.file1.content === 'CS 496 edit';"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"description\": \"the description for this gist\",\r\n  \"public\": true,\r\n  \"files\": {\r\n    \"file1\": {\r\n      \"content\": \"CS 496 edit\"\r\n    }\r\n  }\r\n}"
+				},
+				"url": "https://api.github.com/gists/{{gistID}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Star Gist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cf499293-5010-4873-ad02-3f3e80b061cf",
+						"type": "text/javascript",
+						"exec": [
+							"tests['Star request succeded'] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"url": "https://api.github.com/gists/{{gistID}}/star"
+			},
+			"response": []
+		},
+		{
+			"name": "Check that gist is starred",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2965a29e-53c8-43d3-80bf-7741dea1dae8",
+						"type": "text/javascript",
+						"exec": [
+							"tests['Star request confirmed'] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "https://api.github.com/gists/{{gistID}}/star"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete start on gist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b6d85632-f549-4642-889d-cec61ea33b54",
+						"type": "text/javascript",
+						"exec": [
+							"tests['Delete star on gist'] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": "https://api.github.com/gists/{{gistID}}/star"
+			},
+			"response": []
+		},
+		{
+			"name": "Check that gist is not starred",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "da23e0f1-5357-431d-8976-bb8366d90d9c",
+						"type": "text/javascript",
+						"exec": [
+							"tests['Gist is NOT starred'] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "https://api.github.com/gists/{{gistID}}/star"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Gist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5c41e92d-fd22-4083-9b92-7d5ef49b34a1",
+						"type": "text/javascript",
+						"exec": [
+							"tests['Gist is deleted'] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": "https://api.github.com/gists/{{gistID}}"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": {
+			"accessToken": "foo",
+			"tokenType": "bearer",
+			"addTokenTo": "header"
+		}
+	}
+}
