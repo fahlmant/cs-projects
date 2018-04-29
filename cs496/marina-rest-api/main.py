@@ -156,20 +156,58 @@ class BoatHandler(webapp2.RequestHandler):
                 self.response.write('Boat ' + str(id) + ' deleted')
             #Return an error if the ID doesn't exist
             else:
-                self.response.status = '405'
+                self.response.status = 405
                 self.response.write('Bad boat ID')
         #Error if no ID is provided
         else:
-            self.response.status = '403'
+            self.response.status = 403
             self.response.write('ERROR: Please provide ID for deletion')
 
 class DockingHandler(webapp2.RequestHandler):
-    
+   
+    #Use put to be able to have more than one 'argument'
     def put(self, id):
-        self.response.write("Post")
-        #data = json.loads(self.request.body)
+        self.error = False
+        body = json.loads(self.request.body)
+        boat_id = body['boat_id']
 
+        try:
+            arrival_date = body['arrival_date']
+        except:
+            self.response.status = 403
+            self.response.write('Error: Please provide arrival date')
+            self.error = True
+            return
+        if arrival_date == '':
+            self.response.status = 403
+            self.response.write('Error: Please provide arrival date')
+            self.error = True
+            return
+        try:
+            boat = ndb.Key(urlsafe=boat_id).get()
+        except:
+            self.response.status = 403
+            self.response.write('Error: Please provide valid boat ID')
+            self.error = True
+            return
+        try:
+            slip = ndb.Key(urlsafe=id).get()
+        except:
+            self.response.status = 403
+            self.response.write('Error: Please provide valid slip ID')
+            self.error = True
+            return
 
+        if not self.error:
+            if slip.current_boat != '':
+                self.response.status = 403
+                self.response.write('Error: Slip is occupied')
+            else:
+                slip.arrival_date = body['arrival_date']
+                slip.current_boat = boat_id
+                boat.at_sea = False
+                boat.put()
+                slip.put()
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
