@@ -21,7 +21,10 @@ class SlipHandler(webapp2.RequestHandler):
             slip.number = slip_data['number']
         slip.put()
         slip_dict = slip.to_dict()
+        slip_dict['self'] = '/slip/' + slip.key.urlsafe()
+        slip_dict['slip_id'] = slip.key.urlsafe()
         self.response.write(json.dumps(slip_dict))
+
 
     def get(self, id=None):
         #If and ID is provided
@@ -122,6 +125,8 @@ class BoatHandler(webapp2.RequestHandler):
             boat.boat_type = boat_data['boat_type']
         boat.put()
         boat_dict = boat.to_dict()
+        boat_dict['self'] = '/boats/' + boat.key.urlsafe()
+        boat_dict['boat_id'] = boat.key.urlsafe()       
         self.response.write(json.dumps(boat_dict))
 
     # Get info about a boat or all boats
