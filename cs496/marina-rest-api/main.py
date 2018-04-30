@@ -14,11 +14,20 @@ class Slip(ndb.Model):
 
 class SlipHandler(webapp2.RequestHandler):
 
-    def get(self, id=None):
+	def put(self,id):
+		slip = ndb.Key(urlsafe=id).get()
+		slip_data = json.loads(self.requset.body)
+		if 'number' in slip_data:
+			slip.number = slip_data['number']
+		slip.put()
+		slip_dict = slip.to_dict()
+		self.response.write(json.dumps(slip_dict))
+
+	def get(self, id=None):
         #If and ID is provided
-        if id:
-            # Get the key
-            slip = ndb.Key(urlsafe=id).get()
+		if id:
+			# Get the key
+			slip = ndb.Key(urlsafe=id).get()
             # If the slip exists
             if slip:
                 # Return all the info about the slip
@@ -65,14 +74,19 @@ class SlipHandler(webapp2.RequestHandler):
         slip_dict['self'] = '/slips/' + slip.key.urlsafe()
         slip_dict['slip_id'] = slip.key.urlsafe()
         self.response.write(json.dumps(slip_dict))
-
+		
     def delete(self, id=None):
         # If an ID is provided
         if id:
             slip = ndb.Key(urlsafe=id).get()
-            print("Got ID")
             # If the ID is a valid slip, delete it from the db
             if slip:
+            	slip_dict = slip.to_dict()
+            	if(slip_dict['current_boat'] != ''):
+            		boat_id = slip_dict['current_boat']
+            		boat = ndb.Key(urlsafe=boat_id).get()
+            		boat.at_sea = True
+            		boat.put()
                 slip.key.delete()
                 self.response.write('Slip ' + str(id) + ' deleted')
         # Error if no ID is provided
@@ -96,6 +110,19 @@ class MainPage(webapp2.RequestHandler):
 
 
 class BoatHandler(webapp2.RequestHandler):
+
+	def put(self,id):
+		boat = ndb.Key(urlsafe=id).get()
+		boat_data = json.loads(self.requset.body)
+		if 'name' in boat_data:
+			boat.name = boat_data['name']
+		if 'length' in boat_data:
+			boat.length = boat_data['length']
+		if 'boay_type' in boat_data:
+			boat.boat_type = boat_data['boat_type']
+		boat.put()
+		boat_dict = boat.to_dict()
+		self.response.write(json.dumps(boat_dict))
 
     # Get info about a boat or all boats
     def get(self, id=None):
@@ -152,14 +179,20 @@ class BoatHandler(webapp2.RequestHandler):
         boat_dict['self'] = '/boats/' + boat.key.urlsafe()
         boat_dict['boat_id'] = boat.key.urlsafe()
         self.response.write(json.dumps(boat_dict))
-
+		
     # Delete a boat
     def delete(self, id=None):
         # If an ID is provided
         if id:
             boat = ndb.Key(urlsafe=id).get()
+            boat_data = boat.to_dict()
             # If the ID is a valid boat, delete it from the db
             if boat:
+            	if Slip.query(Slip.current_boat == id):
+            		slip = Slip
+            		slip.current_boat = ""
+            		slip.arrival_date = ""
+            		slip.put()
                 boat.key.delete()
                 self.response.write('Boat ' + str(id) + ' deleted')
             # Return an error if the ID doesn't exist
@@ -216,23 +249,22 @@ class DockingHandler(webapp2.RequestHandler):
             slip_dict = slip.to_dict()
             slip_dict['self'] = '/slip/' + slip.key.urlsafe()
             slip_dict['slip_id'] = slip.key.urlsafe()
-            self.resonse.write(slip_dict)
+            self.response.write('Put boat in slip')
 
     def delete(self, id):
         slip = ndb.Key(urlsafe=id).get()
-        slip_dict = slip.to_dict()
-        boat_id = slip_dict['current_boat']
-        boat = ndb.Key(urlsafe=boat_id).get()
-        slip.arrival_date = ""
-        slip.current_boat = ""
-        boat.at_sea = True
-        boat.put()
-        slip.put()
-        slip_dict = slip.to_dict()
-        slip_dict['self'] = '/slip/' + slip.key.urlsafe()
-        slip_dict['slip_id'] = slip.key.urlsafe()
-        self.response.write(slip_dict)
-
+        if slip:
+        	slip_dict = slip.to_dict()
+        	boat_id = slip_dict['current_boat']
+        	boat = ndb.Key(urlsafe=boat_id).get()
+        	slip.arrival_date =''
+        	slip.current_boat =''
+        	boat.at_sea = True
+        	boat.put()
+        	slip.put()
+        else:
+        	self.response.status = 403
+        	self.response.write('403 Error: Please provide valid slip ID')	
 
 class BoatInSlipHandler(webapp2.RequestHandler):
 
@@ -252,7 +284,6 @@ class BoatInSlipHandler(webapp2.RequestHandler):
         else:
             self.response.status = 405
             self.response.write("405 Error: No boat in slip")
-
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
