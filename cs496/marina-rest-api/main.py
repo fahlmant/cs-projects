@@ -27,7 +27,7 @@ class SlipHandler(webapp2.RequestHandler):
             #Error if a bad/old ID was given
             else:
                 self.response.status = 405
-                self.response.write("405 Error: Bad id")
+                self.response.write("405 Error: Bad slip id. Does the slip exist?")
         #Show all slips if no ID is provided
         else:
             #Get all the slips in the db
@@ -42,29 +42,26 @@ class SlipHandler(webapp2.RequestHandler):
             self.response.write(json.dumps(slip_dict))
 
     def post(self):
-        self.error = False
         #Get all the data from the request
         slip_data = json.loads(self.request.body)
 
         if Slip.query(Slip.number == slip_data['number']).get():
-            print("ERROR")
-            self.response.code = 403
+            self.response.status = 403
             self.response.write("403 Error: Slip with number exists")
-            self.error = True
+            return
 
-        if not self.error:
         #Create a new slip with the corresponding data
-            slip = Slip(number=slip_data['number'],
-                        current_boat = '',
-                        arrival_date= '')
-            #Create the boat in the db
-            slip.put()
-            #For printing a response, create a boat_dict
-            slip_dict = slip.to_dict()
-            #Set self and ID for the response
-            slip_dict['self'] = '/slips/' + slip.key.urlsafe()
-            slip_dict['slip_id'] = slip.key.urlsafe()
-            self.response.write(json.dumps(slip_dict))
+        slip = Slip(number=slip_data['number'],
+                    current_boat = '',
+                    arrival_date= '')
+        #Create the boat in the db
+        slip.put()
+        #For printing a response, create a boat_dict
+        slip_dict = slip.to_dict()
+        #Set self and ID for the response
+        slip_dict['self'] = '/slips/' + slip.key.urlsafe()
+        slip_dict['slip_id'] = slip.key.urlsafe()
+        self.response.write(json.dumps(slip_dict))
     
     def delete(self,id=None):
         #If an ID is provided
@@ -77,12 +74,12 @@ class SlipHandler(webapp2.RequestHandler):
                 self.response.write('Slip ' + str(id) + ' deleted')
             #Return an error if the ID doesn't exist
             else:
-                self.response.status = '405'
-                self.response.write('Bad boat ID')
+                self.response.status = 405
+                self.response.write('405 Error: Bad slip ID. Does the slip exist?')
         #Error if no ID is provided
         else:
-            self.response.status = '403'
-            self.response.write('ERROR: Please provide ID for deletion')
+            self.response.status = 403
+            self.response.write('403 Error: Please provide slip ID for deletion')
 
 class Boat(ndb.Model):
     name = ndb.StringProperty(required=True)
@@ -113,7 +110,7 @@ class BoatHandler(webapp2.RequestHandler):
             #Error if a bad/old ID was given
             else:
                 self.response.status = 405
-                self.response.write("405 Bad id")
+                self.response.write("405 Error: Bad boat id. Does the boat exist?")
         #Show all boats if no ID is provided
         else:
             #Get all the boats in the db
@@ -131,6 +128,13 @@ class BoatHandler(webapp2.RequestHandler):
     def post(self):
         #Get all the data from the request
         boat_data = json.loads(self.request.body)
+        
+        if Boat.query(Boat.name == boat_data['name']).get():
+            self.response.status = 403
+            self.response.write("403 Error: Boat with name exists")
+            self.error = True
+            return
+        
         #Create a new boat with the corresponding data
         boat = Boat(name=boat_data['name'],
                     boat_type=boat_data['boat_type'],
@@ -157,17 +161,16 @@ class BoatHandler(webapp2.RequestHandler):
             #Return an error if the ID doesn't exist
             else:
                 self.response.status = 405
-                self.response.write('Bad boat ID')
+                self.response.write('405 Error: Bad boat ID. Does the boat exist?')
         #Error if no ID is provided
         else:
             self.response.status = 403
-            self.response.write('ERROR: Please provide ID for deletion')
+            self.response.write('403 Error: Please provide boat ID for deletion')
 
 class DockingHandler(webapp2.RequestHandler):
    
     #Use put to be able to have more than one 'argument'
     def put(self, id):
-        self.error = False
         body = json.loads(self.request.body)
         boat_id = body['boat_id']
 
@@ -175,39 +178,52 @@ class DockingHandler(webapp2.RequestHandler):
             arrival_date = body['arrival_date']
         except:
             self.response.status = 403
-            self.response.write('Error: Please provide arrival date')
-            self.error = True
+            self.response.write('403 Error: Please provide arrival date')
             return
         if arrival_date == '':
             self.response.status = 403
-            self.response.write('Error: Please provide arrival date')
-            self.error = True
+            self.response.write('403 Error: Please provide arrival date')
             return
         try:
             boat = ndb.Key(urlsafe=boat_id).get()
         except:
             self.response.status = 403
-            self.response.write('Error: Please provide valid boat ID')
-            self.error = True
+            self.response.write('403 Error: Please provide valid boat ID')
             return
         try:
             slip = ndb.Key(urlsafe=id).get()
         except:
             self.response.status = 403
-            self.response.write('Error: Please provide valid slip ID')
-            self.error = True
+            self.response.write('403 Error: Please provide valid slip ID')
             return
 
-        if not self.error:
-            if slip.current_boat != '':
-                self.response.status = 403
-                self.response.write('Error: Slip is occupied')
-            else:
-                slip.arrival_date = body['arrival_date']
-                slip.current_boat = boat_id
-                boat.at_sea = False
-                boat.put()
-                slip.put()
+        if slip.current_boat != '':
+        	self.response.status = 403
+            self.response.write('403 Error: Slip is occupied')
+        else:
+            slip.arrival_date = body['arrival_date']
+            slip.current_boat = boat_id
+            boat.at_sea = False
+            boat.put()
+            slip.put()
+
+class BoatInSlipHandler(webapp2.RequestHandler):
+
+	def get(self,id):
+		body = json.loads(self.request.body)
+		boat_id = body['current_boat']
+        boat = ndb.Key(urlsafe=boat_id).get()
+        #If the boat exists
+        if boat:
+        	#Return all the info about the boat
+            boat_dict = boat.to_dict()
+            boat_dict['self'] = '/boats/' + boat.key.urlsafe()
+            boat_dict['boat_id'] = boat.key.urlsafe()
+            self.response.write(json.dumps(boat_dict))
+        #Error if a bad/old ID was given
+        else:
+            self.response.status = 405
+            self.response.write("405 Error: No boat in slip")
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
@@ -215,5 +231,6 @@ app = webapp2.WSGIApplication([
     ('/boats/(.*)', BoatHandler),
     ('/slips', SlipHandler),
     ('/slips/(.*)/dock', DockingHandler),
+    ('/slips/(.*)/boat', BoatInSlipHandler),
     ('/slips/(.*)', SlipHandler)
 ], debug=True)
