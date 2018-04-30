@@ -208,9 +208,9 @@ class DockingHandler(webapp2.RequestHandler):
             self.response.status = 403
             self.response.write('403 Error: Slip is occupied')
         else:
-			slip.arrival_date = body['arrival_date']
-			slip.current_boat = boat_id
-			boat.at_sea = False
+            slip.arrival_date = body['arrival_date']
+            slip.current_boat = boat_id
+            boat.at_sea = False
             boat.put()
             slip.put()
             slip_dict = slip.to_dict()
