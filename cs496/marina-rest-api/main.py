@@ -206,8 +206,9 @@ class DockingHandler(webapp2.RequestHandler):
 class BoatInSlipHandler(webapp2.RequestHandler):
 
     def get(self,id):
-        body = json.loads(self.request.body)
-        boat_id = body['current_boat']
+        slip = ndb.Key(urlsafe=id).get()
+        slip_dict = slip.to_dict()
+        boat_id = slip_dict['current_boat']
         boat = ndb.Key(urlsafe=boat_id).get()
         #If the boat exists
         if boat:
