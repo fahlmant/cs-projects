@@ -202,7 +202,11 @@ class DockingHandler(webapp2.RequestHandler):
             boat.at_sea = False
             boat.put()
             slip.put()
-            self.resonse.write(slip.to_dict())
+            slip_dict = slip.to_dict()
+	       	slip_dict['self'] = '/slip/' + slip.key.urlsafe()
+			slip_dict['slip_id'] = slip.key.urlsafe()
+			self.resonse.write(slip_dict)
+			
     def delete(self,id):
         slip = ndb.Key(urlsafe=id).get()
         slip_dict = slip.to_dict()
@@ -214,9 +218,9 @@ class DockingHandler(webapp2.RequestHandler):
         boat.put()
         slip.put()
         slip_dict = slip.to_dict()
+       	slip_dict['self'] = '/slip/' + slip.key.urlsafe()
+		slip_dict['slip_id'] = slip.key.urlsafe()
         self.response.write(slip_dict)
-
-   
 
 class BoatInSlipHandler(webapp2.RequestHandler):
 
