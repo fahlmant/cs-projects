@@ -16,7 +16,7 @@ class SlipHandler(webapp2.RequestHandler):
 
     def put(self,id):
         slip = ndb.Key(urlsafe=id).get()
-        slip_data = json.loads(self.requset.body)
+        slip_data = json.loads(self.request.body)
         if 'number' in slip_data:
             slip.number = slip_data['number']
         slip.put()
@@ -116,7 +116,7 @@ class BoatHandler(webapp2.RequestHandler):
 
     def put(self,id):
         boat = ndb.Key(urlsafe=id).get()
-        boat_data = json.loads(self.requset.body)
+        boat_data = json.loads(self.request.body)
         if 'name' in boat_data:
             boat.name = boat_data['name']
         if 'length' in boat_data:
