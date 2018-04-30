@@ -193,11 +193,12 @@ class BoatHandler(webapp2.RequestHandler):
             boat_data = boat.to_dict()
             # If the ID is a valid boat, delete it from the db
             if boat:
-                if Slip.query(Slip.current_boat == id):
-                    slip = Slip
-                    slip.current_boat = ""
-                    slip.arrival_date = ""
-                    slip.put()
+                slips = Slip.query().fetch()
+                for slip in slips:
+                    if(slip.current_boat == id):
+                        slip.current_boat = ""
+                        slip.arrival_date = ""
+                        slip.put()
                 boat.key.delete()
                 self.response.write('Boat ' + str(id) + ' deleted')
             # Return an error if the ID doesn't exist
