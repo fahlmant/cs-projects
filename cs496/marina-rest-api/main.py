@@ -202,6 +202,7 @@ class DockingHandler(webapp2.RequestHandler):
             boat.at_sea = False
             boat.put()
             slip.put()
+            self.resonse.write(slip.to_dict())
     def delete(self,id):
         try:
             slip = ndb.Key(urlsafe=id).get()
@@ -210,11 +211,13 @@ class DockingHandler(webapp2.RequestHandler):
             self.response.write('403 Error: Please provide valid slip ID')
             return
         boat_id = (slip.to_dict())['boat_id']
+        boat = ndb.Key(urlsafe=boat_id).get()
         slip.arrival_date = ""
         slip.current_boat = ""
         boat.at_sea = True
         boat.put()
         slip.put()
+        self.resonse.write(slip.to_dict())
 
 
 class BoatInSlipHandler(webapp2.RequestHandler):
