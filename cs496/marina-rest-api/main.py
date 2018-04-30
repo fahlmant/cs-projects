@@ -14,20 +14,20 @@ class Slip(ndb.Model):
 
 class SlipHandler(webapp2.RequestHandler):
 
-	def put(self,id):
-		slip = ndb.Key(urlsafe=id).get()
-		slip_data = json.loads(self.requset.body)
-		if 'number' in slip_data:
-			slip.number = slip_data['number']
-		slip.put()
-		slip_dict = slip.to_dict()
-		self.response.write(json.dumps(slip_dict))
+    def put(self,id):
+        slip = ndb.Key(urlsafe=id).get()
+        slip_data = json.loads(self.requset.body)
+        if 'number' in slip_data:
+	    slip.number = slip_data['number']
+	slip.put()
+	slip_dict = slip.to_dict()
+	self.response.write(json.dumps(slip_dict))
 
-	def get(self, id=None):
+    def get(self, id=None):
         #If and ID is provided
-		if id:
-			# Get the key
-			slip = ndb.Key(urlsafe=id).get()
+	if id:
+	    # Get the key
+	    slip = ndb.Key(urlsafe=id).get()
             # If the slip exists
             if slip:
                 # Return all the info about the slip
@@ -111,18 +111,18 @@ class MainPage(webapp2.RequestHandler):
 
 class BoatHandler(webapp2.RequestHandler):
 
-	def put(self,id):
-		boat = ndb.Key(urlsafe=id).get()
-		boat_data = json.loads(self.requset.body)
-		if 'name' in boat_data:
-			boat.name = boat_data['name']
-		if 'length' in boat_data:
-			boat.length = boat_data['length']
-		if 'boay_type' in boat_data:
-			boat.boat_type = boat_data['boat_type']
-		boat.put()
-		boat_dict = boat.to_dict()
-		self.response.write(json.dumps(boat_dict))
+    def put(self,id):
+        boat = ndb.Key(urlsafe=id).get()
+	boat_data = json.loads(self.requset.body)
+	if 'name' in boat_data:
+	    boat.name = boat_data['name']
+	if 'length' in boat_data:
+	    boat.length = boat_data['length']
+	if 'boay_type' in boat_data:
+	    boat.boat_type = boat_data['boat_type']
+	boat.put()
+	boat_dict = boat.to_dict()
+	self.response.write(json.dumps(boat_dict))
 
     # Get info about a boat or all boats
     def get(self, id=None):
