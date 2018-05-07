@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Fahlmant CS 496 OAuth 2.0 Implementation</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container-fluid text-center">
+  <div class="row content">
+    <div class="col-sm-8 text-left">
+      <h1>Welcome</h1>
+      <p> This is the index page for OSU's CS 496 OAuth implementation assignment. A state was generated
+      on loading this page, which will be passed to Google when the button below is pressed. State: {{ state }}</p>
+      <hr>
+
+      <div class="btn-group">
+              <a href="{{ google_auth_url }}" class="btn btn-primary" style="background-color: #2196f3">Request OAuth Access</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
