@@ -17,12 +17,15 @@ ENDPOINT_URL_BASE = "https://accounts.google.com/o/oauth2/v2/auth?"
 
 class OAuthHandler(webapp2.RequestHandler):
     def get(self):
+		#Set the header for the request for info
         header = {'Content-Type':'application/x-www-form-urlencoded'}
+		
+		#Get the code and state back from Google's auth
         code = self.request.GET['code']
         returned_state = self.request.GET['state']
 
         verified = 'False'
-
+		#Ensure the state returned from google is the same as the state passed to it
         if(returned_state == app.registry.get('state')):
             verified = 'True'
         else:
@@ -30,6 +33,7 @@ class OAuthHandler(webapp2.RequestHandler):
             self.response.write('403: Error, State did not match')
             return
 
+		#Using the client ID and secret, and the redirect uri, construct payload for second request
         payload_data = {
                 'code':code,
                 'client_id':CLIENT_ID,
@@ -39,6 +43,7 @@ class OAuthHandler(webapp2.RequestHandler):
                 }
         payload_encoded_data = urllib.urlencode(payload_data)
 
+		#Request token from google now that user has authenticated
         response = urlfetch.fetch(
                 "https://www.googleapis.com/oauth2/v4/token/",
                 headers=header,
@@ -46,7 +51,8 @@ class OAuthHandler(webapp2.RequestHandler):
                 method=urlfetch.POST)
 
         json_response = json.loads(response.content)
-
+	
+		#Use access token as authorization to email info
         token = json_response['access_token']
         header = {'Authorization': 'Bearer ' + token}
         response = urlfetch.fetch(
@@ -54,11 +60,13 @@ class OAuthHandler(webapp2.RequestHandler):
                 headers=header
                 )
 
+		#Parse response object for name and email
         user_data = json.loads(response.content)
         fname = user_data['name']['givenName']
         lname = user_data['name']['familyName']
         email = user_data['emails'][0]['value']
 
+		#Load info into template
         template_data = {
                 'fname': fname,
                 'lname': lname,
@@ -66,7 +74,8 @@ class OAuthHandler(webapp2.RequestHandler):
                 'verified_state': returned_state,
                 'verified':verified
                 }
-
+	
+		#Render template using info extracted from email response object
         self.response.write(template.render('templates/oauth.html', template_data))
 
 
