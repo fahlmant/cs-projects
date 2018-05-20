@@ -58,8 +58,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         longitude = findViewById(R.id.longitude);
         et = findViewById(R.id.plain_text_input);
 
-        latitude.setText("44.5");
-        longitude.setText("-123.2");
 
         //Initialize Google Api Client
         if (mGoogleApiClient == null) {
@@ -76,18 +74,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mLocationRequest.setInterval(50);
         mLocationRequest.setFastestInterval(50);
 
+        latitude.setText("44.5");
+        longitude.setText("-123.2");
+
         //Set up location listener
         mLocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 if (location != null) {
-                    Log.d("LOCATIONC", "Changed");
                     latitude.setText(String.valueOf(location.getLatitude()));
                     longitude.setText(String.valueOf(location.getLongitude()));
 
-                } else {
-                    latitude.setText("44.5");
-                    longitude.setText("-123.2");
                 }
             }
         };
@@ -108,14 +105,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                     ContentValues submitted_data = new ContentValues();
                     submitted_data.put(SQLiteHelper.DBContract.DataTable.COLUMN_NAME_DATA_STRING, submitted_text);
-                    if(location_perms) {
-                        submitted_data.put(SQLiteHelper.DBContract.DataTable.COLUMN_NAME_DATA_LAT, lat);
-                        submitted_data.put(SQLiteHelper.DBContract.DataTable.COLUMN_NAME_DATA_LONG, longi);
-                    }
-                    else {
-                        submitted_data.put(SQLiteHelper.DBContract.DataTable.COLUMN_NAME_DATA_LAT, "44.5");
-                        submitted_data.put(SQLiteHelper.DBContract.DataTable.COLUMN_NAME_DATA_LONG, "-123.2");
-                    }
+                    submitted_data.put(SQLiteHelper.DBContract.DataTable.COLUMN_NAME_DATA_LAT, lat);
+                    submitted_data.put(SQLiteHelper.DBContract.DataTable.COLUMN_NAME_DATA_LONG, longi);
 
                     mSQLDB.insert(SQLiteHelper.DBContract.DataTable.TABLE_NAME,null,submitted_data);
                     et.setText(null);
@@ -123,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 }
             }
         });
-
         populateTable();
     }
 
@@ -145,11 +135,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_COARSE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED) {
-            return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(
             mGoogleApiClient,mLocationRequest,mLocationListener);
-
     }
 
     @Override
@@ -158,7 +146,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSIONS_REQUEST);
             return;
         }
-        Log.d("TEST", "onConnected");
         updateLocation();
 
     }
