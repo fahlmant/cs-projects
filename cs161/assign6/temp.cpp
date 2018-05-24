@@ -21,7 +21,7 @@ public:
 	
 	void set_cel()
 	{
-		cout << "Enter temoerature in Celsius: " << endl;
+		cout << "Enter temperature in Celsius: " << endl;
 		cin >> cel;
 		kelv = cel + 273.15;
 		far = ((9/5.0)*(cel)) + 32;
