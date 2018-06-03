@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">CS 496 Fahlmant Android UI</string>
+    <string name="button1">Horizontal Linear Layout</string>
+    <string name="button2">Vertical Linear Layout</string>
+    <string name="button3">Table Layout with Table Rows</string>
+    <string name="button4">Grid Layout</string>
+    <string name="main">Main Activity with buttons in RelativeLayout</string>
+    <string name="value1">1</string>
+    <string name="value2">2</string>
+    <string name="value3">3</string>
+    <string name="value4">4</string>
+    <string name="value5">5</string>
+
+
+</resources>
