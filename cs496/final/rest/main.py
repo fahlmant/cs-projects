@@ -19,7 +19,7 @@ class Shelf(ndb.Model):
     size = ndb.IntegerProperty(required=True)
     number = ndb.IntegerProperty(required=True)
     genre = ndb.StringProperty()
-    book = ndb.StringProperty(repeated=True)
+    books = ndb.StringProperty(repeated=True)
 
 class BookHandler(webapp2.RequestHandler):
 
@@ -66,10 +66,48 @@ class BookHandler(webapp2.RequestHandler):
 
 
 class ShelfHandler(webapp2.RequestHandler):
-    
-    def get(self):
-        self.response.write("Boo")
+ 
+    def get(self, id=None):
+        if id:
+            shelf = ndb.Key(urlsafe=id).get()
+            if shelf:
+                shelf_dict = shelf.to_dict()
+                shelf_dict['self'] = '/shelves/' + shelf.key.urlsafe()
+                shelf_dict['shelf_id'] = shelf.key.urlsafe()
+                self.response.write(json.dumps(shelf_dict))
+            else:
+                self.response.status = 405
+                self.response.write("405 Error: ")
+        else:
+            shelves = Shelf.query().fetch()
+            shelf_dict = {'Shelves': []}
+            for shelf in shelves:
+                shelf_data = shelf.to_dict()
+                shelf_data['self'] = '/shelves/' + shelf.key.urlsafe()
+                shelf_data['shelf_id'] = shelf.key.urlsafe()
+                shelf_dict['Shelves'].append(shelf_data)
+            self.response.write(json.dumps(shelf_dict))
 
+    def post(self):
+        shelf_data = json.loads(self.request.body)
+
+        shelf = Shelf(room=shelf_data['room'],
+                    size=shelf_data['size'],
+                    number=shelf_data['number'],
+                    genre=shelf_data['genre'],
+                    books=shelf_data['books'])
+        shelf.put()
+        shelf_dict = shelf.to_dict()
+        shelf_dict['self'] = '/shelves/' + shelf.key.urlsafe()
+        shelf_dict['shelf_id'] = shelf.key.urlsafe()
+        self.response.write(json.dumps(shelf_dict))
+
+    def delete(self, id):
+        pass
+
+    def put(self):
+        pass
+   
 class MainPage(webapp2.RequestHandler):
     def get(self):
         self.response.write("Hello, final project")
