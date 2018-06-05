@@ -48,15 +48,27 @@ class BookHandler(webapp2.RequestHandler):
         book_data = json.loads(self.request.body)
 
         book = Book(title=book_data['title'],
-                    author='foo',
-                    language='bar',
-                    isbn='baz')
+                    author=book_data['author'],
+                    language=book_data['language'],
+                    isbn=book_data['isbn'],
+                    shelf='')
         book.put()
         book_dict = book.to_dict()
         book_dict['self'] = '/books/' + book.key.urlsafe()
         book_dict['book_id'] = book.key.urlsafe()
         self.response.write(json.dumps(book_dict))
 
+    def delete(self, id):
+        pass
+
+    def put(self):
+        pass
+
+
+class ShelfHandler(webapp2.RequestHandler):
+    
+    def get(self):
+        self.response.write("Boo")
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
@@ -65,5 +77,8 @@ class MainPage(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/books', BookHandler),
-    ('/books/(.*)', BookHandler)
+    ('/books/(.*)', BookHandler),
+    ('/shelves', ShelfHandler),
+    ('/shelves/(.*)', ShelfHandler)
+
 ], debug=True)
