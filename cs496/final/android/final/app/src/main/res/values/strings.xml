@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">final</string>
+    <string name="books">Books</string>
+    <string name="shelves">Shelves</string>
+    <string name="listBooks">List Book(s)</string>
+    <string name="addBook">Add Book</string>
+    <string name="editBook">Edit Book</string>
+    <string name="deleteBook">Delete Book</string>
+    <string name="listShelves">List Shelf or Shelves</string>
+    <string name="addShelf">Add Shelf</string>
+    <string name="editShelf">Edit Shelf</string>
+    <string name="deleteShelf">Delete Shelf</string>
+    <string name="listAllBooks">List All Books</string>
+    <string name="listOneBook">List One Book</string>
+    <string name="submit">Submit</string>
+
+</resources>
