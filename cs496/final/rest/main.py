@@ -23,18 +23,23 @@ class Shelf(ndb.Model):
 
 class BookHandler(webapp2.RequestHandler):
 
+    #List one or all books
     def get(self, id=None):
+        #If a book ID is specified
         if id:
             book = ndb.Key(urlsafe=id).get()
+            #If the book exists return its info
             if book:
-                print('HERE\n\n\n\n')
                 book_dict = book.to_dict()
                 book_dict['self'] = '/books/' + book.key.urlsafe()
                 book_dict['book_id'] = book.key.urlsafe()
                 self.response.write(json.dumps(book_dict))
+            #If the book doesn't exist return an error
             else:
-                self.response.status = 405
-                self.response.write("405 Error: ")
+                response = {"Result":404, "Message":"Book does not exist"}
+                self.response.status = 404
+                self.response.write(json.dumps(response))
+        #If no book ID is specified, return all books
         else:
             books = Book.query().fetch()
             book_dict = {'Books': []}
@@ -45,6 +50,7 @@ class BookHandler(webapp2.RequestHandler):
                 book_dict['Books'].append(book_data)
             self.response.write(json.dumps(book_dict))
 
+    #Create a book
     def post(self):
         book_data = json.loads(self.request.body)
 
