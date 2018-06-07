@@ -27,6 +27,7 @@ class BookHandler(webapp2.RequestHandler):
         if id:
             book = ndb.Key(urlsafe=id).get()
             if book:
+                print('HERE\n\n\n\n')
                 book_dict = book.to_dict()
                 book_dict['self'] = '/books/' + book.key.urlsafe()
                 book_dict['book_id'] = book.key.urlsafe()
@@ -59,7 +60,23 @@ class BookHandler(webapp2.RequestHandler):
         self.response.write(json.dumps(book_dict))
 
     def delete(self, id):
-        pass
+        if id:
+            book = ndb.Key(urlsafe=id).get()
+            if book:
+                book_dict = book.to_dict()
+                #handle book in shelf here
+                book.key.delete()
+                response = {"Result":204, "Message":"Book deleted"}
+                self.response.write(json.dumps(response))
+            else:
+                response = {"Result":403, "Message":"Error: Book not found"}
+                self.response.status = 403
+                self.response.write(json.dumps(response))
+
+        else:
+            response ={"Result":403, "Message":"Error: Book not found"}
+            self.response.status = 403
+            self.response.write(json.dumps(response))
 
     def put(self):
         pass
