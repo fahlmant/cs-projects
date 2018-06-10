@@ -16,9 +16,9 @@ class Book(ndb.Model):
 class Shelf(ndb.Model):
 
     room = ndb.StringProperty(required=True)
-    genre = ndb.IntegerProperty(required=True)
+    wood = ndb.StringProperty(required=True)
     number = ndb.IntegerProperty(required=True)
-    wood  = ndb.StringProperty()
+    genre  = ndb.StringProperty()
     book = ndb.StringProperty()
 
 class BookHandler(webapp2.RequestHandler):
@@ -72,10 +72,10 @@ class BookHandler(webapp2.RequestHandler):
             book = ndb.Key(urlsafe=id).get()
             #Get all info about book
             book_dict = book.to_dict()
-            If ths book exists
+            #If ths book exists
             if book:
                 #loop through shelves to see if book is in any
-                shelves = Shelf.querry().fetch()
+                shelves = Shelf.query().fetch()
                 for shelf in shelves:
                     #If book is in a shelf, remove it
                     if(shelf.book == id):
@@ -145,7 +145,7 @@ class ShelfHandler(webapp2.RequestHandler):
                     genre=shelf_data['genre'],
                     number=shelf_data['number'],
                     wood=shelf_data['wood'],
-                    books=shelf_data['books'])
+                    book='')
         shelf.put()
         shelf_dict = shelf.to_dict()
         shelf_dict['self'] = '/shelves/' + shelf.key.urlsafe()
@@ -176,14 +176,14 @@ class ShelfHandler(webapp2.RequestHandler):
             self.response.status = 403
             self.response.write(json.dumps(response))
 
-    def put(self):
+    def put(self, id):
         shelf = ndb.Key(urlsafe=id).get()
         shelf_data = json.loads(self.request.body)
         if 'number' in shelf_data:
-            shelf.title = shelf_data['number']
+            shelf.number = shelf_data['number']
         if 'genre' in shelf_data:
             shelf.genre = shelf_data['genre']
-        if 'wood' in book_data:
+        if 'wood' in shelf_data:
             shelf.wood = shelf_data['wood']
         if 'room' in shelf_data:
             shelf.room = shelf_data['room']
@@ -225,8 +225,9 @@ def StoreHandler(webapp2.RequestHandler):
         if shelf:
             if book:
                 current_book_id = shelf.book
-                current_book = ndb.Key(urlsafe=current_book_id).get()
-                current_book.shelf = ''
+                if (current_book_id != ''):
+                    current_book = ndb.Key(urlsafe=current_book_id).get()
+                    current_book.shelf = ''
                 book.shelf = shelf
                 shelf.book = book
                 book.put()
