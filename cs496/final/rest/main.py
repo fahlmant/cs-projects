@@ -16,9 +16,9 @@ class Book(ndb.Model):
 class Shelf(ndb.Model):
 
     room = ndb.StringProperty(required=True)
-    wood = ndb.StringProperty(required=True)
-    number = ndb.IntegerProperty(required=True)
-    genre  = ndb.StringProperty()
+    genre = ndb.StringProperty()
+    number = ndb.StringProperty(required=True)
+    wood  = ndb.StringProperty(required=True)
     book = ndb.StringProperty()
 
 class BookHandler(webapp2.RequestHandler):
@@ -72,7 +72,7 @@ class BookHandler(webapp2.RequestHandler):
             book = ndb.Key(urlsafe=id).get()
             #Get all info about book
             book_dict = book.to_dict()
-            #If ths book exists
+            #If this book exists
             if book:
                 #loop through shelves to see if book is in any
                 shelves = Shelf.query().fetch()
@@ -95,7 +95,7 @@ class BookHandler(webapp2.RequestHandler):
             self.response.write(json.dumps(response))
 
     def put(self, id):
-       
+
         book = ndb.Key(urlsafe=id).get()
         book_data = json.loads(self.request.body)
         if 'title' in book_data:
@@ -110,13 +110,13 @@ class BookHandler(webapp2.RequestHandler):
         book.put()
         book_dict = book.to_dict()
         book_dict['self'] = '/books/' + book.key.urlsafe()
-        book_dict['boat_id'] = book.key.urlsafe()
+        book_dict['book_id'] = book.key.urlsafe()
         self.response.write(json.dumps(book_dict))
 
 
 
 class ShelfHandler(webapp2.RequestHandler):
- 
+
     def get(self, id=None):
         if id:
             shelf = ndb.Key(urlsafe=id).get()
@@ -213,32 +213,32 @@ class BookInShelfHandler(webapp2.RequestHandler):
             self.response.status = 405
             self.response.write(json.dumps(response))
 
-def StoreHandler(webapp2.RequestHandler):
+
+class StoreHandler(webapp2.RequestHandler):
 
     def put(self, id):
         body = json.loads(self.request.body)
         book_id = body['book']
-        
+
         book = ndb.Key(urlsafe=book_id).get()
         shelf = ndb.Key(urlsafe=id).get()
-        
+        shelf_dict = shelf.to_dict()
+
         if shelf:
             if book:
-                current_book_id = shelf.book
+                current_book_id = shelf_dict['book']
                 if (current_book_id != ''):
                     current_book = ndb.Key(urlsafe=current_book_id).get()
                     current_book.shelf = ''
-                book.shelf = shelf
-                shelf.book = book
+                    current_book.put()
+                book.shelf = id
+                shelf.book = book_id
                 book.put()
                 shelf.put()
                 shelf_dict = shelf.to_dict()
                 shelf_dict['self'] = '/shelves/' + shelf.key.urlsafe()
                 shelf_dict['shelf_id'] = shelf.key.urlsafe()
                 self.response.write(json.dumps(shelf_dict))
-
-            
-
 
     def delete(self, id):
         shelf = ndb.Key(urlsafe=id).get()
@@ -250,6 +250,9 @@ def StoreHandler(webapp2.RequestHandler):
             book.shelf = ''
             book.put()
             shelf.put()
+            response = {"Result":204, "Message":"Book removed from shelf"}
+            self.response.write(json.dumps(response))
+
         else:
             response ={"Result":403, "Message":"Error: Please provide a valid shelf id"}
             self.response.status = 403
@@ -264,8 +267,8 @@ app = webapp2.WSGIApplication([
     ('/books', BookHandler),
     ('/books/(.*)', BookHandler),
     ('/shelves', ShelfHandler),
-    ('/shelves/(.*)/store', StoreHandler,
-    ('/shelves/(.*)/book', BookInShelfHandler,
+    ('/shelves/(.*)/store', StoreHandler),
+    ('/shelves/(.*)/book', BookInShelfHandler),
     ('/shelves/(.*)', ShelfHandler)
 
 ], debug=True)
