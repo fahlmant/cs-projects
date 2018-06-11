@@ -4,56 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".addBook">
+    tools:context=".addShelf">
+
 
     <LinearLayout
-        android:id="@+id/editBookContainer"
+        android:id="@+id/addShelfContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/editBookID"
+            android:id="@+id/addShelfNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Book ID"
-            android:inputType="text" />
-        <EditText
-            android:id="@+id/editBookTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Book Title"
+            android:hint="Shelf Number"
             android:inputType="text" />
 
         <EditText
-            android:id="@+id/editBookAuthor"
+            android:id="@+id/addShelfRoom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Author"
+            android:hint="Room"
             android:inputType="text" />
 
         <EditText
-            android:id="@+id/editBookLang"
+            android:id="@+id/addShelfGenre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Language"
+            android:hint="Genre"
             android:inputType="text" />
 
         <EditText
-            android:id="@+id/editBookISBN"
+            android:id="@+id/addShelfWood"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="ISBN"
+            android:hint="Type of wood"
             android:inputType="text" />
 
         <Button
-            android:id="@+id/editBookButton"
+            android:id="@+id/addShelfButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edit Book" />
+            android:text="Add Shelf" />
 
         <ListView
-            android:id="@+id/editBookResp"
+            android:id="@+id/addShelfResp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

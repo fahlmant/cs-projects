@@ -4,56 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".addBook">
+    tools:context=".editShelf">
 
     <LinearLayout
-        android:id="@+id/editBookContainer"
+        android:id="@+id/editShelfContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/editBookID"
+            android:id="@+id/editShelfID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Book ID"
+            android:hint="Shelf ID"
             android:inputType="text" />
         <EditText
-            android:id="@+id/editBookTitle"
+            android:id="@+id/editShelfNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Book Title"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/editBookAuthor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Author"
+            android:hint="Shelf Number"
             android:inputType="text" />
 
         <EditText
-            android:id="@+id/editBookLang"
+            android:id="@+id/editShelfRoom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Language"
+            android:hint="Room"
             android:inputType="text" />
 
         <EditText
-            android:id="@+id/editBookISBN"
+            android:id="@+id/editShelfGenre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="ISBN"
+            android:hint="Genre"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/editShelfWood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Type of wood"
             android:inputType="text" />
 
         <Button
-            android:id="@+id/editBookButton"
+            android:id="@+id/editShelfButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edit Book" />
+            android:text="Edit Shelf" />
 
         <ListView
-            android:id="@+id/editBookResp"
+            android:id="@+id/editShelfResp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

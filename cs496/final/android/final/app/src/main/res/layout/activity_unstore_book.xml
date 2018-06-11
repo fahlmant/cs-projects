@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".listOneBook">
+    tools:context=".unstoreBook">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,22 +12,16 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/inputListBook"
+            android:id="@+id/unstoreShelfID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Book ID"
+            android:hint="Shelf ID"
             android:inputType="text" />
 
         <Button
-            android:id="@+id/submitListBook"
+            android:id="@+id/unstoreSubmit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/submit" />
-
-        <ListView
-            android:id="@+id/bookRequestResults"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
+            android:text="Submit" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

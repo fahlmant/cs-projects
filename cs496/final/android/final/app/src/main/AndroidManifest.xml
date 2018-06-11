@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.taylor.afinal">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,7 +24,16 @@
         <activity android:name=".editBook" />
         <activity android:name=".deleteBook" />
         <activity android:name=".listAllBooks" />
-        <activity android:name=".listOneBook"></activity>
+        <activity android:name=".listOneBook" />
+        <activity android:name=".addShelf" />
+        <activity android:name=".deleteShelf" />
+        <activity android:name=".editShelf" />
+        <activity android:name=".Shelves" />
+        <activity android:name=".listShelves" />
+        <activity android:name=".listAllShelves" />
+        <activity android:name=".listOneShelf" />
+        <activity android:name=".storeBook" />
+        <activity android:name=".unstoreBook"></activity>
     </application>
 
 </manifest>

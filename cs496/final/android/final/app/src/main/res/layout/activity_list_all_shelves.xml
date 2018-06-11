@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".listAllBooks">
+    tools:context=".listAllShelves">
 
     <ListView
-        android:id="@+id/allBookList"
+        android:id="@+id/allShelvesList"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

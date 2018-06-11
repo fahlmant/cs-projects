@@ -4,30 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".listOneBook">
+    tools:context=".deleteShelf">
 
     <LinearLayout
+        android:id="@+id/deleteBookContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/inputListBook"
+            android:id="@+id/delShelfNum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Book ID"
+            android:hint="Shelf Number"
             android:inputType="text" />
 
         <Button
-            android:id="@+id/submitListBook"
+            android:id="@+id/delShelfSubmit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/submit" />
+            android:text="Delete Shelf" />
 
         <ListView
-            android:id="@+id/bookRequestResults"
+            android:id="@+id/delShelfResp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

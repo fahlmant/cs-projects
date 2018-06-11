@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,15 +30,15 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class addBook extends AppCompatActivity {
+public class addShelf extends AppCompatActivity {
 
-    private EditText addBookTitle;
-    private EditText addBookAuthor;
-    private EditText addBookLang;
-    private EditText addBookISBN;
-    private Button addBookButton;
-    private LinearLayout addBookContainer;
-    private ListView addBookResponse;
+    private EditText addShelfNumber;
+    private EditText addShelfRoom;
+    private EditText addShelfGenre;
+    private EditText addShelfWood;
+    private Button addShelfButton;
+    private LinearLayout addShelfContainer;
+    private ListView addShelfResponse;
     private OkHttpClient mOkHttpClient;
     //From OKHTTP website
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -45,27 +46,28 @@ public class addBook extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_book);
+        setContentView(R.layout.activity_add_shelf);
 
-        addBookTitle = findViewById(R.id.addBookTitle);
-        addBookAuthor = findViewById(R.id.addbookAuthor);
-        addBookLang = findViewById(R.id.addBookLang);
-        addBookISBN = findViewById(R.id.addBookISBN);
-        addBookButton = findViewById(R.id.addBookButton);
-        addBookContainer = findViewById(R.id.addBookContainer);
-        addBookResponse = findViewById(R.id.addBookResp);
+        addShelfNumber = findViewById(R.id.addShelfNumber);
+        addShelfRoom = findViewById(R.id.addShelfRoom);
+        addShelfGenre = findViewById(R.id.addShelfGenre);
+        addShelfWood = findViewById(R.id.addShelfWood);
+        addShelfButton = findViewById(R.id.addShelfButton);
+        addShelfContainer = findViewById(R.id.addShelfContainer);
+        addShelfResponse = findViewById(R.id.addShelfResp);
 
-        addBookButton.setOnClickListener(new View.OnClickListener() {
+        addShelfButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
                 //https://stackoverflow.com/questions/20117148/how-to-create-json-object-using-string
                 JSONObject requestBody = new JSONObject();
                 try {
-                    requestBody.put("title", addBookTitle.getText().toString());
-                    requestBody.put("author", addBookAuthor.getText().toString());
-                    requestBody.put("language", addBookLang.getText().toString());
-                    requestBody.put("isbn",addBookISBN.getText().toString());
+                    requestBody.put("number", addShelfNumber.getText().toString());
+                    requestBody.put("room", addShelfRoom.getText().toString());
+                    requestBody.put("genre", addShelfGenre.getText().toString());
+                    requestBody.put("wood",addShelfWood.getText().toString());
 
                 } catch (Exception e) {
                     Log.d("JSONOBJ", e + "");
@@ -76,7 +78,7 @@ public class addBook extends AppCompatActivity {
 
                 //From class lecutres
                 mOkHttpClient = new OkHttpClient();
-                HttpUrl reqUrl = HttpUrl.parse("https://cs496-final-fahlmant.appspot.com/books");
+                HttpUrl reqUrl = HttpUrl.parse("https://cs496-final-fahlmant.appspot.com/shelves");
                 Request request = new Request.Builder()
                         .url(reqUrl)
                         .post(rb)
@@ -94,30 +96,30 @@ public class addBook extends AppCompatActivity {
                         String resp = response.body().string();
                         try {
                             JSONObject jobj = new JSONObject(resp);
-                            HashMap<String, String> m = new HashMap<String, String>();
-                            List<Map<String, String>> book = new ArrayList<Map<String, String>>();
-                            m.put("title", jobj.getString("title"));
-                            m.put("author", jobj.getString("author"));
-                            m.put("language", jobj.getString("language"));
-                            m.put("isbn", jobj.getString("isbn"));
-                            m.put("shelf", jobj.getString("shelf"));
-                            m.put("book_id", jobj.getString("book_id"));
-                            book.add(m);
+                            HashMap<String, String> m = new HashMap<String,String>();
+                            List<Map<String, String>> shelf = new ArrayList<Map<String, String>>();
+                            m.put("number",jobj.getString("number"));
+                            m.put("room", jobj.getString("room"));
+                            m.put("wood", jobj.getString("wood"));
+                            m.put("genre", jobj.getString("genre"));
+                            m.put("book", jobj.getString("book"));
+                            m.put("shelf_id", jobj.getString("shelf_id"));
+                            shelf.add(m);
 
-                            final SimpleAdapter bookAdapter = new SimpleAdapter(
-                                    addBook.this,
-                                    book,
-                                    R.layout.book_item,
-                                    new String[]{"title", "author", "language", "isbn", "shelf", "book_id"},
-                                    new int[]{R.id.book_item_title, R.id.book_item_author, R.id.book_item_language, R.id.book_item_isbn, R.id.book_item_shelf, R.id.book_item_book_id});
+                            final SimpleAdapter shelfAdapter = new SimpleAdapter(
+                                    addShelf.this,
+                                    shelf,
+                                    R.layout.shelf_item,
+                                    new String[]{"number","room","wood","genre","book","shelf_id"},
+                                    new int[]{R.id.shelf_item_number, R.id.shelf_item_room,R.id.shelf_item_wood,R.id.shelf_item_genre,R.id.shelf_item_book,R.id.shelf_item_shelf_id});
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    addBookResponse.setAdapter(bookAdapter);
+                                    addShelfResponse.setAdapter(shelfAdapter);
                                 }
                             });
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            Log.d("JSON", e.toString());
                         }
                     }
                 });

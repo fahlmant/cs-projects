@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                //Intent shelfTopActivity = new Intent(getApplicationContext(), Shelves.class);
-                //startActivity(shelfTopActivity);
+                Intent shelfTopActivity = new Intent(getApplicationContext(), Shelves.class);
+                startActivity(shelfTopActivity);
             }
         });
     }

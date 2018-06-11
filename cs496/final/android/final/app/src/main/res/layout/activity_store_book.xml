@@ -4,52 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".addBook">
+    tools:context=".storeBook">
 
     <LinearLayout
-        android:id="@+id/addBookContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/addBookTitle"
+            android:id="@+id/storeShelfID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Book Title"
+            android:hint="Shelf ID"
             android:inputType="text" />
-
         <EditText
-            android:id="@+id/addbookAuthor"
+            android:id="@+id/storeBookID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Author"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/addBookLang"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Language"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/addBookISBN"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="ISBN"
+            android:hint="Book ID"
             android:inputType="text" />
 
         <Button
-            android:id="@+id/addBookButton"
+            android:id="@+id/storeSubmit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Book" />
-
-        <ListView
-            android:id="@+id/addBookResp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
+            android:text="Submit" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

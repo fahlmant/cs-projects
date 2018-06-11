@@ -4,30 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".listOneBook">
+    tools:context=".listShelves">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/inputListBook"
+        <Button
+            android:id="@+id/allShelves"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Book ID"
-            android:inputType="text" />
+            android:text="List All Shelves" />
 
         <Button
-            android:id="@+id/submitListBook"
+            android:id="@+id/oneShelf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/submit" />
-
-        <ListView
-            android:id="@+id/bookRequestResults"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
+            android:text="List One Shelf" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

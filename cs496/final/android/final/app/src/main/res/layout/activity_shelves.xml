@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Books">
+    tools:context=".Shelves">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,39 +12,27 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/listBook"
+            android:id="@+id/listShelf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/listBooks" />
+            android:text="List Shelf/Shelves" />
 
         <Button
-            android:id="@+id/addBook"
+            android:id="@+id/addShelf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/addBook" />
+            android:text="Add Shelf" />
 
         <Button
-            android:id="@+id/editBook"
+            android:id="@+id/editShelf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/editBook" />
+            android:text="Edit Shelf" />
 
         <Button
-            android:id="@+id/deleteBook"
+            android:id="@+id/deleteShelf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/deleteBook" />
-
-        <Button
-            android:id="@+id/storeButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Store Book" />
-
-        <Button
-            android:id="@+id/unstoreButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Unstore Book" />
+            android:text="Delete Shelf" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

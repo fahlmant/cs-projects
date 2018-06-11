@@ -25,7 +25,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class listAllBooks extends AppCompatActivity {
+public class listAllShelves extends AppCompatActivity {
 
     private ListView listInfo;
     private OkHttpClient mOkHttpClient;
@@ -33,13 +33,14 @@ public class listAllBooks extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_all_books);
+        setContentView(R.layout.activity_list_all_shelves);
 
-        listInfo = findViewById(R.id.allBookList);
+
+        listInfo = findViewById(R.id.allShelvesList);
 
         //From class lecutres
         mOkHttpClient = new OkHttpClient();
-        HttpUrl reqUrl = HttpUrl.parse("https://cs496-final-fahlmant.appspot.com/books/");
+        HttpUrl reqUrl = HttpUrl.parse("https://cs496-final-fahlmant.appspot.com/shelves/");
         Request request = new Request.Builder()
                 .url(reqUrl)
                 .build();
@@ -57,30 +58,32 @@ public class listAllBooks extends AppCompatActivity {
 
                 try {
                     JSONObject jobj = new JSONObject(resp);
-                    JSONArray items = jobj.getJSONArray("Books");
-                    List<Map<String, String>> books = new ArrayList<Map<String, String>>();
+                    JSONArray items = jobj.getJSONArray("Shelves");
+                    List<Map<String, String>> shelves = new ArrayList<Map<String, String>>();
                     for(int i = 0; i < items.length(); i++) {
                         HashMap<String, String> m = new HashMap<String, String>();
-                        m.put("title", items.getJSONObject(i).getString("title"));
-                        m.put("author", items.getJSONObject(i).getString("author"));
-                        m.put("language", items.getJSONObject(i).getString("language"));
-                        m.put("isbn", items.getJSONObject(i).getString("isbn"));
-                        m.put("shelf", items.getJSONObject(i).getString("shelf"));
-                        m.put("book_id", items.getJSONObject(i).getString("book_id"));
-                        books.add(m);
+                        m.put("number", items.getJSONObject(i).getString("number"));
+                        m.put("room", items.getJSONObject(i).getString("room"));
+                        m.put("wood", items.getJSONObject(i).getString("wood"));
+                        m.put("genre", items.getJSONObject(i).getString("genre"));
+                        m.put("book", items.getJSONObject(i).getString("book"));
+                        m.put("shelf_id", items.getJSONObject(i).getString("shelf_id"));
+                        shelves.add(m);
                     }
-                    final SimpleAdapter bookAdapter = new SimpleAdapter(
-                            listAllBooks.this,
-                            books,
-                            R.layout.book_item,
-                            new String[]{"title","author","language","isbn","shelf","book_id"},
-                            new int[]{R.id.book_item_title,R.id.book_item_author,R.id.book_item_language,R.id.book_item_isbn,R.id.book_item_shelf,R.id.book_item_book_id});
+                    final SimpleAdapter shelfAdapter = new SimpleAdapter(
+                            listAllShelves.this,
+                            shelves,
+                            R.layout.shelf_item,
+                            new String[]{"number","room","wood","genre","book","shelf_id"},
+                            new int[]{R.id.shelf_item_number, R.id.shelf_item_room,R.id.shelf_item_wood,R.id.shelf_item_genre,R.id.shelf_item_book,R.id.shelf_item_shelf_id});
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            listInfo.setAdapter(bookAdapter);
+                            listInfo.setAdapter(shelfAdapter);
                         }
                     });
+
+
                 } catch (JSONException e) {
                     Log.d("JSON", e.toString());
                 }

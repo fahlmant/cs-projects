@@ -26,5 +26,14 @@ public class listBooks extends AppCompatActivity {
                 startActivity(listAllBookActivity);
             }
         });
+
+        oneBook.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent listOneBookActivity = new Intent(getApplicationContext(), listOneBook.class);
+                startActivity(listOneBookActivity);
+            }
+        });
     }
 }

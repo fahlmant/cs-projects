@@ -12,6 +12,8 @@ public class Books extends AppCompatActivity {
     private Button addBook;
     private Button editBook;
     private Button deleteBook;
+    private Button storeBook;
+    private Button unstoreBook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +24,8 @@ public class Books extends AppCompatActivity {
         addBook = findViewById(R.id.addBook);
         editBook = findViewById(R.id.editBook);
         deleteBook = findViewById(R.id.deleteBook);
+        storeBook = findViewById(R.id.storeButton);
+        unstoreBook = findViewById(R.id.unstoreButton);
 
         listBooks.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +58,21 @@ public class Books extends AppCompatActivity {
             }
         });
 
+        storeBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent storeBookActivity = new Intent(getApplicationContext(), storeBook.class);
+                startActivity(storeBookActivity);
+            }
+        });
+
+        unstoreBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent unstoreBookActivity = new Intent(getApplicationContext(), unstoreBook.class);
+                startActivity(unstoreBookActivity);
+            }
+        });
 
     }
 

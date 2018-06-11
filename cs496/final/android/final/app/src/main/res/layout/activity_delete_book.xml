@@ -6,4 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".deleteBook">
 
+    <LinearLayout
+        android:id="@+id/deleteBookContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/delBookTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Book ID"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/delBookSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete Book" />
+
+        <ListView
+            android:id="@+id/delBookResp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
