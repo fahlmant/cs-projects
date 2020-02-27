@@ -10,8 +10,8 @@ import threading
 
 from webapp2_extras import sessions
 
-CLIENT_ID = "627132243290-j3pa26m40geckeb8o0t7cn0cbb86a6j4.apps.googleusercontent.com"
-CLIENT_SECRET = "01zDvXD8JcrrE6Aantw43PSD"
+CLIENT_ID = ""
+CLIENT_SECRET = ""
 ENDPOINT_URL_BASE = "https://accounts.google.com/o/oauth2/v2/auth?"
 
 
